@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wallet_admin/res/components/colors.dart';
 import 'package:wallet_admin/res/components/header.dart';
-import 'package:wallet_admin/res/components/roundedButton.dart';
 import 'package:wallet_admin/res/keys.dart';
 import 'package:wallet_admin/res/responsive.dart';
 import 'package:wallet_admin/view/slide_menu.dart';
@@ -225,7 +224,7 @@ class _IncreasePaymentState extends State<IncreasePayment> {
                                                 ),
                                               ),
                                             ),
-                                              Expanded(
+                                            Expanded(
                                               flex: 1,
                                               child: Center(
                                                 child: Text(
@@ -255,32 +254,32 @@ class _IncreasePaymentState extends State<IncreasePayment> {
                                         ),
                                         child: Row(
                                           children: [
-                                            Expanded(
+                                            const Expanded(
                                               flex: 1,
                                               child: Center(
                                                 child: Text("1"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("Basit Ali"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 4,
                                               child: Center(
                                                 child: Text(
                                                     "Basitalyshah51214@gmail.com"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("6 months"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("22/4/2024"),
@@ -330,32 +329,32 @@ class _IncreasePaymentState extends State<IncreasePayment> {
                                         ),
                                         child: Row(
                                           children: [
-                                            Expanded(
+                                            const Expanded(
                                               flex: 1,
                                               child: Center(
                                                 child: Text("2"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("Basit Ali"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 4,
                                               child: Center(
                                                 child: Text(
                                                     "Basitalyshah51214@gmail.com"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("3 months"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("22/4/2024"),
@@ -405,32 +404,32 @@ class _IncreasePaymentState extends State<IncreasePayment> {
                                         ),
                                         child: Row(
                                           children: [
-                                            Expanded(
+                                            const Expanded(
                                               flex: 1,
                                               child: Center(
                                                 child: Text("3"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("Basit Ali"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 4,
                                               child: Center(
                                                 child: Text(
                                                     "Basitalyshah51214@gmail.com"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("6 months"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("22/4/2024"),
@@ -480,32 +479,32 @@ class _IncreasePaymentState extends State<IncreasePayment> {
                                         ),
                                         child: Row(
                                           children: [
-                                            Expanded(
+                                            const Expanded(
                                               flex: 1,
                                               child: Center(
                                                 child: Text("4"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("Basit Ali"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 4,
                                               child: Center(
                                                 child: Text(
                                                     "Basitalyshah51214@gmail.com"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("6 months"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("22/4/2024"),
@@ -555,32 +554,32 @@ class _IncreasePaymentState extends State<IncreasePayment> {
                                         ),
                                         child: Row(
                                           children: [
-                                            Expanded(
+                                            const Expanded(
                                               flex: 1,
                                               child: Center(
                                                 child: Text("5"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("Basit Ali"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 4,
                                               child: Center(
                                                 child: Text(
                                                     "Basitalyshah51214@gmail.com"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("6 months"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("22/4/2024"),
@@ -630,32 +629,32 @@ class _IncreasePaymentState extends State<IncreasePayment> {
                                         ),
                                         child: Row(
                                           children: [
-                                            Expanded(
+                                            const Expanded(
                                               flex: 1,
                                               child: Center(
                                                 child: Text("6"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("Basit Ali"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 4,
                                               child: Center(
                                                 child: Text(
                                                     "Basitalyshah51214@gmail.com"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("6 months"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("22/4/2024"),
@@ -705,32 +704,32 @@ class _IncreasePaymentState extends State<IncreasePayment> {
                                         ),
                                         child: Row(
                                           children: [
-                                            Expanded(
+                                            const Expanded(
                                               flex: 1,
                                               child: Center(
                                                 child: Text("7"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("Basit Ali"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 4,
                                               child: Center(
                                                 child: Text(
                                                     "Basitalyshah51214@gmail.com"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("6 months"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("22/4/2024"),

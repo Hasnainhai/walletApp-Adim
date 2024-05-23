@@ -15,7 +15,6 @@ class UsersSubscribtions extends StatefulWidget {
 }
 
 class _UsersSubscribtionsState extends State<UsersSubscribtions> {
-  String? _btn2SelectedVal;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
