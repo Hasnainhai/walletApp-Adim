@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wallet_admin/res/components/colors.dart';
 import 'package:wallet_admin/res/components/header.dart';
+import 'package:wallet_admin/res/components/roundedButton.dart';
 import 'package:wallet_admin/res/keys.dart';
 import 'package:wallet_admin/res/responsive.dart';
 import 'package:wallet_admin/view/slide_menu.dart';
 
-class WithdrawUsers extends StatefulWidget {
-  const WithdrawUsers({super.key});
+class IncreasePayment extends StatefulWidget {
+  const IncreasePayment({super.key});
 
   @override
-  State<WithdrawUsers> createState() => _WithdrawUsersState();
+  State<IncreasePayment> createState() => _IncreasePaymentState();
 }
 
-class _WithdrawUsersState extends State<WithdrawUsers> {
+class _IncreasePaymentState extends State<IncreasePayment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +61,7 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Withdraw Users",
+                                        "Increase Payment",
                                         style: GoogleFonts.getFont(
                                           "Poppins",
                                           textStyle: const TextStyle(
@@ -204,7 +205,7 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
                                               flex: 3,
                                               child: Center(
                                                 child: Text(
-                                                  'Phone Number',
+                                                  'Subscribtions',
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.black,
@@ -224,11 +225,11 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
                                                 ),
                                               ),
                                             ),
-                                            Expanded(
+                                              Expanded(
                                               flex: 1,
                                               child: Center(
                                                 child: Text(
-                                                  'Phone Number',
+                                                  'Date',
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.transparent,
@@ -254,32 +255,32 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
                                         ),
                                         child: Row(
                                           children: [
-                                            const Expanded(
+                                            Expanded(
                                               flex: 1,
                                               child: Center(
                                                 child: Text("1"),
                                               ),
                                             ),
-                                            const Expanded(
+                                            Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("Basit Ali"),
                                               ),
                                             ),
-                                            const Expanded(
+                                            Expanded(
                                               flex: 4,
                                               child: Center(
                                                 child: Text(
                                                     "Basitalyshah51214@gmail.com"),
                                               ),
                                             ),
-                                            const Expanded(
+                                            Expanded(
                                               flex: 3,
                                               child: Center(
-                                                child: Text("03554500599"),
+                                                child: Text("6 months"),
                                               ),
                                             ),
-                                            const Expanded(
+                                            Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("22/4/2024"),
@@ -297,7 +298,7 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
                                                 ),
                                                 child: Center(
                                                     child: Text(
-                                                  "View",
+                                                  "increase",
                                                   style: GoogleFonts.getFont(
                                                     "Poppins",
                                                     textStyle: const TextStyle(
@@ -329,32 +330,32 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
                                         ),
                                         child: Row(
                                           children: [
-                                            const Expanded(
+                                            Expanded(
                                               flex: 1,
                                               child: Center(
                                                 child: Text("2"),
                                               ),
                                             ),
-                                            const Expanded(
+                                            Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("Basit Ali"),
                                               ),
                                             ),
-                                            const Expanded(
+                                            Expanded(
                                               flex: 4,
                                               child: Center(
                                                 child: Text(
                                                     "Basitalyshah51214@gmail.com"),
                                               ),
                                             ),
-                                            const Expanded(
+                                            Expanded(
                                               flex: 3,
                                               child: Center(
-                                                child: Text("03554500599"),
+                                                child: Text("3 months"),
                                               ),
                                             ),
-                                            const Expanded(
+                                            Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("22/4/2024"),
@@ -372,7 +373,7 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
                                                 ),
                                                 child: Center(
                                                     child: Text(
-                                                  "View",
+                                                  "increase",
                                                   style: GoogleFonts.getFont(
                                                     "Poppins",
                                                     textStyle: const TextStyle(
@@ -404,32 +405,32 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
                                         ),
                                         child: Row(
                                           children: [
-                                            const Expanded(
+                                            Expanded(
                                               flex: 1,
                                               child: Center(
                                                 child: Text("3"),
                                               ),
                                             ),
-                                            const Expanded(
+                                            Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("Basit Ali"),
                                               ),
                                             ),
-                                            const Expanded(
+                                            Expanded(
                                               flex: 4,
                                               child: Center(
                                                 child: Text(
                                                     "Basitalyshah51214@gmail.com"),
                                               ),
                                             ),
-                                            const Expanded(
+                                            Expanded(
                                               flex: 3,
                                               child: Center(
-                                                child: Text("03554500599"),
+                                                child: Text("6 months"),
                                               ),
                                             ),
-                                            const Expanded(
+                                            Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("22/4/2024"),
@@ -447,7 +448,7 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
                                                 ),
                                                 child: Center(
                                                     child: Text(
-                                                  "View",
+                                                  "increase",
                                                   style: GoogleFonts.getFont(
                                                     "Poppins",
                                                     textStyle: const TextStyle(
@@ -479,32 +480,32 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
                                         ),
                                         child: Row(
                                           children: [
-                                            const Expanded(
+                                            Expanded(
                                               flex: 1,
                                               child: Center(
                                                 child: Text("4"),
                                               ),
                                             ),
-                                            const Expanded(
+                                            Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("Basit Ali"),
                                               ),
                                             ),
-                                            const Expanded(
+                                            Expanded(
                                               flex: 4,
                                               child: Center(
                                                 child: Text(
                                                     "Basitalyshah51214@gmail.com"),
                                               ),
                                             ),
-                                            const Expanded(
+                                            Expanded(
                                               flex: 3,
                                               child: Center(
-                                                child: Text("03554500599"),
+                                                child: Text("6 months"),
                                               ),
                                             ),
-                                            const Expanded(
+                                            Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("22/4/2024"),
@@ -522,7 +523,7 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
                                                 ),
                                                 child: Center(
                                                     child: Text(
-                                                  "View",
+                                                  "increase",
                                                   style: GoogleFonts.getFont(
                                                     "Poppins",
                                                     textStyle: const TextStyle(
@@ -554,32 +555,32 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
                                         ),
                                         child: Row(
                                           children: [
-                                            const Expanded(
+                                            Expanded(
                                               flex: 1,
                                               child: Center(
                                                 child: Text("5"),
                                               ),
                                             ),
-                                            const Expanded(
+                                            Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("Basit Ali"),
                                               ),
                                             ),
-                                            const Expanded(
+                                            Expanded(
                                               flex: 4,
                                               child: Center(
                                                 child: Text(
                                                     "Basitalyshah51214@gmail.com"),
                                               ),
                                             ),
-                                            const Expanded(
+                                            Expanded(
                                               flex: 3,
                                               child: Center(
-                                                child: Text("03554500599"),
+                                                child: Text("6 months"),
                                               ),
                                             ),
-                                            const Expanded(
+                                            Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("22/4/2024"),
@@ -597,7 +598,7 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
                                                 ),
                                                 child: Center(
                                                     child: Text(
-                                                  "View",
+                                                  "increase",
                                                   style: GoogleFonts.getFont(
                                                     "Poppins",
                                                     textStyle: const TextStyle(
@@ -629,32 +630,32 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
                                         ),
                                         child: Row(
                                           children: [
-                                            const Expanded(
+                                            Expanded(
                                               flex: 1,
                                               child: Center(
                                                 child: Text("6"),
                                               ),
                                             ),
-                                            const Expanded(
+                                            Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("Basit Ali"),
                                               ),
                                             ),
-                                            const Expanded(
+                                            Expanded(
                                               flex: 4,
                                               child: Center(
                                                 child: Text(
                                                     "Basitalyshah51214@gmail.com"),
                                               ),
                                             ),
-                                            const Expanded(
+                                            Expanded(
                                               flex: 3,
                                               child: Center(
-                                                child: Text("03554500599"),
+                                                child: Text("6 months"),
                                               ),
                                             ),
-                                            const Expanded(
+                                            Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("22/4/2024"),
@@ -672,7 +673,7 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
                                                 ),
                                                 child: Center(
                                                     child: Text(
-                                                  "View",
+                                                  "increase",
                                                   style: GoogleFonts.getFont(
                                                     "Poppins",
                                                     textStyle: const TextStyle(
@@ -704,32 +705,32 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
                                         ),
                                         child: Row(
                                           children: [
-                                            const Expanded(
+                                            Expanded(
                                               flex: 1,
                                               child: Center(
                                                 child: Text("7"),
                                               ),
                                             ),
-                                            const Expanded(
+                                            Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("Basit Ali"),
                                               ),
                                             ),
-                                            const Expanded(
+                                            Expanded(
                                               flex: 4,
                                               child: Center(
                                                 child: Text(
                                                     "Basitalyshah51214@gmail.com"),
                                               ),
                                             ),
-                                            const Expanded(
+                                            Expanded(
                                               flex: 3,
                                               child: Center(
-                                                child: Text("03554500599"),
+                                                child: Text("6 months"),
                                               ),
                                             ),
-                                            const Expanded(
+                                            Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("22/4/2024"),
@@ -747,7 +748,7 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
                                                 ),
                                                 child: Center(
                                                     child: Text(
-                                                  "View",
+                                                  "increase",
                                                   style: GoogleFonts.getFont(
                                                     "Poppins",
                                                     textStyle: const TextStyle(
