@@ -1,3 +1,3 @@
-class RoutesName{
-  static const String splash = 'Splash_View';
+class RoutesName {
+  static const String mydetails = 'my_details';
 }
