@@ -2,19 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wallet_admin/res/components/colors.dart';
 import 'package:wallet_admin/res/components/header.dart';
-import 'package:wallet_admin/res/components/roundedButton.dart';
 import 'package:wallet_admin/res/keys.dart';
 import 'package:wallet_admin/res/responsive.dart';
 import 'package:wallet_admin/view/slide_menu.dart';
 
-class UsersSubscribtions extends StatefulWidget {
-  const UsersSubscribtions({super.key});
+class IncreasePayment extends StatefulWidget {
+  const IncreasePayment({super.key});
 
   @override
-  State<UsersSubscribtions> createState() => _UsersSubscribtionsState();
+  State<IncreasePayment> createState() => _IncreasePaymentState();
 }
 
-class _UsersSubscribtionsState extends State<UsersSubscribtions> {
+class _IncreasePaymentState extends State<IncreasePayment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +60,7 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Users Subscribtions",
+                                        "Increase Payment",
                                         style: GoogleFonts.getFont(
                                           "Poppins",
                                           textStyle: const TextStyle(
@@ -75,105 +74,84 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                         height: 16,
                                       ),
                                       Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Row(
-                                            children: [
-                                              Container(
-                                                height: 38,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    5,
-                                                decoration: const BoxDecoration(
-                                                  border: Border(
-                                                    left: BorderSide(
-                                                      color:
-                                                          AppColor.borderColor,
-                                                      width:
-                                                          1.0, // Adjust the width as needed
-                                                    ),
-                                                    top: BorderSide(
-                                                      color:
-                                                          AppColor.borderColor,
-                                                      width:
-                                                          1.0, // Adjust the width as needed
-                                                    ),
-                                                    bottom: BorderSide(
-                                                      color:
-                                                          AppColor.borderColor,
-                                                      width:
-                                                          1.0, // Adjust the width as needed
-                                                    ),
-                                                    // No border on the right side
-                                                    right: BorderSide.none,
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                    topLeft: Radius.circular(8),
-                                                    bottomLeft:
-                                                        Radius.circular(8),
-                                                  ),
+                                          Container(
+                                            height: 38,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                5,
+                                            decoration: const BoxDecoration(
+                                              border: Border(
+                                                left: BorderSide(
+                                                  color: AppColor.borderColor,
+                                                  width:
+                                                      1.0, // Adjust the width as needed
                                                 ),
-                                                child: const TextField(
-                                                  decoration: InputDecoration(
-                                                    isDense: true,
-                                                    contentPadding:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 8.0),
-                                                    hintText: 'Search here',
-                                                    hintStyle: TextStyle(
-                                                        color: Colors.black),
-                                                    border: InputBorder.none,
-                                                    prefixIcon: Icon(
-                                                        Icons.search,
-                                                        color: Colors.black),
-                                                  ),
-                                                  textAlignVertical:
-                                                      TextAlignVertical.center,
-                                                  style: TextStyle(
-                                                      color: Colors.black),
+                                                top: BorderSide(
+                                                  color: AppColor.borderColor,
+                                                  width:
+                                                      1.0, // Adjust the width as needed
                                                 ),
+                                                bottom: BorderSide(
+                                                  color: AppColor.borderColor,
+                                                  width:
+                                                      1.0, // Adjust the width as needed
+                                                ),
+                                                // No border on the right side
+                                                right: BorderSide.none,
                                               ),
-                                              Container(
-                                                height: 38,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    13,
-                                                decoration: const BoxDecoration(
-                                                  color: AppColor.primaryColor,
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                    topRight:
-                                                        Radius.circular(8),
-                                                    bottomRight:
-                                                        Radius.circular(8),
-                                                  ),
-                                                ),
-                                                child: Center(
-                                                  child: Text(
-                                                    "Search",
-                                                    style: GoogleFonts.getFont(
-                                                      "Poppins",
-                                                      textStyle:
-                                                          const TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color:
-                                                            AppColor.whiteColor,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(8),
+                                                bottomLeft: Radius.circular(8),
                                               ),
-                                            ],
+                                            ),
+                                            child: const TextField(
+                                              decoration: InputDecoration(
+                                                isDense: true,
+                                                contentPadding:
+                                                    EdgeInsets.symmetric(
+                                                        vertical: 8.0),
+                                                hintText: 'Search here',
+                                                hintStyle: TextStyle(
+                                                    color: Colors.black),
+                                                border: InputBorder.none,
+                                                prefixIcon: Icon(Icons.search,
+                                                    color: Colors.black),
+                                              ),
+                                              textAlignVertical:
+                                                  TextAlignVertical.center,
+                                              style: TextStyle(
+                                                  color: Colors.black),
+                                            ),
                                           ),
-                                          RoundedButton(
-                                              ontap: () {},
-                                              title: 'Send message')
+                                          Container(
+                                            height: 38,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                13,
+                                            decoration: const BoxDecoration(
+                                              color: AppColor.primaryColor,
+                                              borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(8),
+                                                bottomRight: Radius.circular(8),
+                                              ),
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                "Search",
+                                                style: GoogleFonts.getFont(
+                                                  "Poppins",
+                                                  textStyle: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: AppColor.whiteColor,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         ],
                                       ),
                                       const SizedBox(
@@ -246,6 +224,18 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                                 ),
                                               ),
                                             ),
+                                            Expanded(
+                                              flex: 1,
+                                              child: Center(
+                                                child: Text(
+                                                  'Date',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.transparent,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -262,37 +252,63 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                                 color: Colors.grey[300]!),
                                           ),
                                         ),
-                                        child: const Row(
+                                        child: Row(
                                           children: [
-                                            Expanded(
+                                            const Expanded(
                                               flex: 1,
                                               child: Center(
                                                 child: Text("1"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("Basit Ali"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 4,
                                               child: Center(
                                                 child: Text(
                                                     "Basitalyshah51214@gmail.com"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("6 months"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("22/4/2024"),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              flex: 1,
+                                              child: Container(
+                                                height: 28,
+                                                width: 50,
+                                                decoration: BoxDecoration(
+                                                  color: AppColor.primaryColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(6),
+                                                ),
+                                                child: Center(
+                                                    child: Text(
+                                                  "increase",
+                                                  style: GoogleFonts.getFont(
+                                                    "Poppins",
+                                                    textStyle: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color:
+                                                          AppColor.whiteColor,
+                                                    ),
+                                                  ),
+                                                )),
                                               ),
                                             ),
                                           ],
@@ -311,37 +327,63 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                                 color: Colors.grey[300]!),
                                           ),
                                         ),
-                                        child: const Row(
+                                        child: Row(
                                           children: [
-                                            Expanded(
+                                            const Expanded(
                                               flex: 1,
                                               child: Center(
                                                 child: Text("2"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("Basit Ali"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 4,
                                               child: Center(
                                                 child: Text(
                                                     "Basitalyshah51214@gmail.com"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("3 months"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("22/4/2024"),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              flex: 1,
+                                              child: Container(
+                                                height: 28,
+                                                width: 50,
+                                                decoration: BoxDecoration(
+                                                  color: AppColor.primaryColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(6),
+                                                ),
+                                                child: Center(
+                                                    child: Text(
+                                                  "increase",
+                                                  style: GoogleFonts.getFont(
+                                                    "Poppins",
+                                                    textStyle: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color:
+                                                          AppColor.whiteColor,
+                                                    ),
+                                                  ),
+                                                )),
                                               ),
                                             ),
                                           ],
@@ -360,37 +402,63 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                                 color: Colors.grey[300]!),
                                           ),
                                         ),
-                                        child: const Row(
+                                        child: Row(
                                           children: [
-                                            Expanded(
+                                            const Expanded(
                                               flex: 1,
                                               child: Center(
                                                 child: Text("3"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("Basit Ali"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 4,
                                               child: Center(
                                                 child: Text(
                                                     "Basitalyshah51214@gmail.com"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("6 months"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("22/4/2024"),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              flex: 1,
+                                              child: Container(
+                                                height: 28,
+                                                width: 50,
+                                                decoration: BoxDecoration(
+                                                  color: AppColor.primaryColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(6),
+                                                ),
+                                                child: Center(
+                                                    child: Text(
+                                                  "increase",
+                                                  style: GoogleFonts.getFont(
+                                                    "Poppins",
+                                                    textStyle: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color:
+                                                          AppColor.whiteColor,
+                                                    ),
+                                                  ),
+                                                )),
                                               ),
                                             ),
                                           ],
@@ -409,37 +477,63 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                                 color: Colors.grey[300]!),
                                           ),
                                         ),
-                                        child: const Row(
+                                        child: Row(
                                           children: [
-                                            Expanded(
+                                            const Expanded(
                                               flex: 1,
                                               child: Center(
                                                 child: Text("4"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("Basit Ali"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 4,
                                               child: Center(
                                                 child: Text(
                                                     "Basitalyshah51214@gmail.com"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("6 months"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("22/4/2024"),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              flex: 1,
+                                              child: Container(
+                                                height: 28,
+                                                width: 50,
+                                                decoration: BoxDecoration(
+                                                  color: AppColor.primaryColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(6),
+                                                ),
+                                                child: Center(
+                                                    child: Text(
+                                                  "increase",
+                                                  style: GoogleFonts.getFont(
+                                                    "Poppins",
+                                                    textStyle: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color:
+                                                          AppColor.whiteColor,
+                                                    ),
+                                                  ),
+                                                )),
                                               ),
                                             ),
                                           ],
@@ -458,37 +552,63 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                                 color: Colors.grey[300]!),
                                           ),
                                         ),
-                                        child: const Row(
+                                        child: Row(
                                           children: [
-                                            Expanded(
+                                            const Expanded(
                                               flex: 1,
                                               child: Center(
                                                 child: Text("5"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("Basit Ali"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 4,
                                               child: Center(
                                                 child: Text(
                                                     "Basitalyshah51214@gmail.com"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("6 months"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("22/4/2024"),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              flex: 1,
+                                              child: Container(
+                                                height: 28,
+                                                width: 50,
+                                                decoration: BoxDecoration(
+                                                  color: AppColor.primaryColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(6),
+                                                ),
+                                                child: Center(
+                                                    child: Text(
+                                                  "increase",
+                                                  style: GoogleFonts.getFont(
+                                                    "Poppins",
+                                                    textStyle: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color:
+                                                          AppColor.whiteColor,
+                                                    ),
+                                                  ),
+                                                )),
                                               ),
                                             ),
                                           ],
@@ -507,37 +627,63 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                                 color: Colors.grey[300]!),
                                           ),
                                         ),
-                                        child: const Row(
+                                        child: Row(
                                           children: [
-                                            Expanded(
+                                            const Expanded(
                                               flex: 1,
                                               child: Center(
                                                 child: Text("6"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("Basit Ali"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 4,
                                               child: Center(
                                                 child: Text(
                                                     "Basitalyshah51214@gmail.com"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("6 months"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("22/4/2024"),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              flex: 1,
+                                              child: Container(
+                                                height: 28,
+                                                width: 50,
+                                                decoration: BoxDecoration(
+                                                  color: AppColor.primaryColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(6),
+                                                ),
+                                                child: Center(
+                                                    child: Text(
+                                                  "increase",
+                                                  style: GoogleFonts.getFont(
+                                                    "Poppins",
+                                                    textStyle: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color:
+                                                          AppColor.whiteColor,
+                                                    ),
+                                                  ),
+                                                )),
                                               ),
                                             ),
                                           ],
@@ -556,37 +702,63 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                                 color: Colors.grey[300]!),
                                           ),
                                         ),
-                                        child: const Row(
+                                        child: Row(
                                           children: [
-                                            Expanded(
+                                            const Expanded(
                                               flex: 1,
                                               child: Center(
                                                 child: Text("7"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("Basit Ali"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 4,
                                               child: Center(
                                                 child: Text(
                                                     "Basitalyshah51214@gmail.com"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("6 months"),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 3,
                                               child: Center(
                                                 child: Text("22/4/2024"),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              flex: 1,
+                                              child: Container(
+                                                height: 28,
+                                                width: 50,
+                                                decoration: BoxDecoration(
+                                                  color: AppColor.primaryColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(6),
+                                                ),
+                                                child: Center(
+                                                    child: Text(
+                                                  "increase",
+                                                  style: GoogleFonts.getFont(
+                                                    "Poppins",
+                                                    textStyle: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color:
+                                                          AppColor.whiteColor,
+                                                    ),
+                                                  ),
+                                                )),
                                               ),
                                             ),
                                           ],

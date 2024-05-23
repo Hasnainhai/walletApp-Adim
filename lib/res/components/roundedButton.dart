@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:wallet_admin/res/components/colors.dart';
 
@@ -26,7 +27,7 @@ class RoundedButton extends StatelessWidget {
           backgroundColor: AppColor.primaryColor),
       child: Text(
         title,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w400,
           color: Colors.white,
