@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:wallet_admin/res/components/colors.dart';
-import 'package:wallet_admin/res/components/vertical_spacing.dart';
 import 'package:wallet_admin/res/const.dart';
 import 'package:wallet_admin/view/widgets/dashboard_widget.dart';
 
@@ -16,7 +14,7 @@ class DashboardScreen extends StatelessWidget {
       child: Container(
         height: 232,
         color: AppColor.whiteColor,
-        child: Center(
+        child: const Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
