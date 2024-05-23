@@ -5,8 +5,10 @@ class RoundedButton extends StatelessWidget {
   const RoundedButton({
     super.key,
     required this.ontap,
+    required this.title,
   });
   final Function ontap;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +24,8 @@ class RoundedButton extends StatelessWidget {
           ),
           elevation: 0,
           backgroundColor: AppColor.primaryColor),
-      child: const Text(
-        'Edit details',
+      child: Text(
+        title,
         style: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w400,
