@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:wallet_admin/res/components/colors.dart';
-import 'package:wallet_admin/res/components/custom_searchField.dart';
 import 'package:wallet_admin/res/const.dart';
 
 import '../../view/widgets/notification_icon_badget.dart';
@@ -31,28 +30,42 @@ class Header extends StatelessWidget {
               },
             ),
           if (Responsive.isDesktop(context))
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "Dashboard",
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text("LOGO",
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: AppColor.primaryColor,
+                    fontWeight: FontWeight.bold,
+                  )),
             ),
           if (Responsive.isDesktop(context))
             Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
           Expanded(
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: "Search",
-                fillColor: Theme.of(context).cardColor,
-                filled: true,
-                border: const OutlineInputBorder(
-                  borderSide: BorderSide.none,
+            child: Container(
+              width: 204,
+              height: 38,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: Colors.grey,
+                  width: 1,
                 ),
-                suffixIcon: InkWell(
-                  onTap: () {},
-                  child: Container(
-                    padding: const EdgeInsets.all(defaultPadding * 0.75),
+              ),
+              child: TextField(
+                textAlign: TextAlign.start,
+                decoration: InputDecoration(
+                  hintText: "Search",
+                  fillColor: Colors.transparent,
+                  filled: true,
+                  isDense: true,
+                  contentPadding: const EdgeInsets.symmetric(vertical: 8.0),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide.none,
+                  ),
+                  prefixIcon: Container(
                     margin: const EdgeInsets.symmetric(
                         horizontal: defaultPadding / 2),
                     decoration: const BoxDecoration(
