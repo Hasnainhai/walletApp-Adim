@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:wallet_admin/res/components/colors.dart';
 import 'package:wallet_admin/view/mainScreen.dart';
 
 import '../res/components/textWidget.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SideMenu extends StatefulWidget {
   const SideMenu({
@@ -18,15 +20,13 @@ class _SideMenuState extends State<SideMenu> {
     return Drawer(
       backgroundColor: Colors.white,
       elevation: 0,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.zero,
+      ),
       child: ListView(
         children: [
-          DrawerHeader(
-            child: Image.asset(
-              "assets/images/groceries.png",
-            ),
-          ),
           DrawerListTile(
-            title: "Main",
+            title: "Dashboard",
             press: () {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
@@ -34,7 +34,7 @@ class _SideMenuState extends State<SideMenu> {
                 ),
               );
             },
-            icon: Icons.home_filled,
+            icon: Icons.home,
           ),
           DrawerListTile(
             title: "Product",
@@ -129,7 +129,7 @@ class _SideMenuState extends State<SideMenu> {
           DrawerListTile(
             title: "Logout",
             press: () {},
-            icon: Icons.logout,
+            icon: Icons.logout_outlined,
           ),
         ],
       ),
@@ -138,30 +138,37 @@ class _SideMenuState extends State<SideMenu> {
 }
 
 class DrawerListTile extends StatelessWidget {
-  const DrawerListTile({
-    super.key,
-    // For selecting those three line once press "Command+D"
-    required this.title,
-    required this.press,
-    required this.icon,
-  });
+  const DrawerListTile(
+      {super.key,
+      // For selecting those three line once press "Command+D"
+      required this.title,
+      required this.press,
+      this.imageIcon,
+      this.icon});
 
   final String title;
   final VoidCallback press;
-  final IconData icon;
+  final String? imageIcon;
+  final IconData? icon;
   @override
   Widget build(BuildContext context) {
     return ListTile(
-        onTap: press,
-        horizontalTitleGap: 0.0,
-        leading: Icon(
-          icon,
-          size: 18,
-          color: Colors.black,
+      onTap: press,
+      horizontalTitleGap: 0.0,
+      leading:
+          imageIcon != null ? ImageIcon(AssetImage(imageIcon!)) : Icon(icon),
+      minLeadingWidth: 40,
+      title: Text(
+        title,
+        style: GoogleFonts.getFont(
+          "Poppins",
+          textStyle: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: AppColor.primaryColor,
+          ),
         ),
-        title: TextWidget(
-          text: title,
-          color: Colors.black,
-        ));
+      ),
+    );
   }
 }
