@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wallet_admin/res/components/colors.dart';
 import 'package:wallet_admin/res/components/header.dart';
@@ -8,7 +6,6 @@ import 'package:wallet_admin/res/components/roundedButton.dart';
 import 'package:wallet_admin/res/keys.dart';
 import 'package:wallet_admin/res/responsive.dart';
 import 'package:wallet_admin/view/slide_menu.dart';
-import 'package:wallet_admin/view/widgets/add_field.dart';
 
 class UsersSubscribtions extends StatefulWidget {
   const UsersSubscribtions({super.key});
@@ -666,11 +663,11 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                   padding: const EdgeInsets.all(10.0),
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: Color(0xffFDFDFF),
+                                      color: const Color(0xffFDFDFF),
                                       borderRadius: BorderRadius.circular(10.0),
                                       border: Border.all(
                                         width: 1,
-                                        color: Color(0xffA5A6F6),
+                                        color: const Color(0xffA5A6F6),
                                       ),
                                     ),
                                     child: Padding(
