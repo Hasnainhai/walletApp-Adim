@@ -844,7 +844,7 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
                         title: "Account Number",
                         data: "1234567891",
                       ),
-                      const UserDetailField(
+                      UserDetailField(
                         title: "Phone Number",
                         data: "123456789",
                       ),
