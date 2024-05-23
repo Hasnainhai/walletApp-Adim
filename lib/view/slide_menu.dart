@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:wallet_admin/res/components/colors.dart';
+import 'package:wallet_admin/view/deposite.dart';
 import 'package:wallet_admin/view/mainScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wallet_admin/view/my_details.dart';
 import 'package:wallet_admin/view/my_subscribtions.dart';
 import 'package:wallet_admin/view/user_screen.dart';
 import 'package:wallet_admin/view/users_subscribtions.dart';
+import 'package:wallet_admin/view/withdraw_users.dart';
 
 class SideMenu extends StatefulWidget {
   const SideMenu({
@@ -62,17 +64,23 @@ class _SideMenuState extends State<SideMenu> {
           ),
           DrawerListTile(
             title: "WithDraw",
-            press: () {},
+            press: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const WithdrawUsers(),
+                ),
+              );
+            },
             icon: Icons.currency_exchange_outlined,
           ),
           DrawerListTile(
             title: "Deposite",
             press: () {
-              // Navigator.of(context).pushReplacement(
-              //   MaterialPageRoute(
-              //     builder: (context) => const OrderScreen(),
-              //   ),
-              // );
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const Deposite(),
+                ),
+              );
             },
             icon: Icons.payment_outlined,
           ),
