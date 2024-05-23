@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:wallet_admin/res/components/colors.dart';
 import 'package:wallet_admin/view/mainScreen.dart';
 
-import '../res/components/textWidget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SideMenu extends StatefulWidget {
@@ -34,10 +33,10 @@ class _SideMenuState extends State<SideMenu> {
                 ),
               );
             },
-            icon: Icons.home,
+            icon: Icons.home_outlined,
           ),
           DrawerListTile(
-            title: "Product",
+            title: "Users",
             press: () {
               // Navigator.of(context).pushReplacement(
               //   MaterialPageRoute(
@@ -45,10 +44,10 @@ class _SideMenuState extends State<SideMenu> {
               //   ),
               // );
             },
-            icon: Icons.store,
+            icon: Icons.group_outlined,
           ),
           DrawerListTile(
-            title: "Popular Packs",
+            title: "My Details",
             press: () {
               // Navigator.of(context).pushReplacement(
               //   MaterialPageRoute(
@@ -56,10 +55,10 @@ class _SideMenuState extends State<SideMenu> {
               //   ),
               // );
             },
-            icon: Icons.move_down_outlined,
+            icon: Icons.data_exploration_outlined,
           ),
           DrawerListTile(
-            title: "Fashion",
+            title: "WithDraw",
             press: () {
               // Navigator.of(context).pushReplacement(
               //   MaterialPageRoute(
@@ -67,10 +66,10 @@ class _SideMenuState extends State<SideMenu> {
               //   ),
               // );
             },
-            icon: Icons.style_outlined,
+            icon: Icons.currency_exchange_outlined,
           ),
           DrawerListTile(
-            title: "Orders",
+            title: "Deposite",
             press: () {
               // Navigator.of(context).pushReplacement(
               //   MaterialPageRoute(
@@ -78,58 +77,7 @@ class _SideMenuState extends State<SideMenu> {
               //   ),
               // );
             },
-            icon: Icons.badge,
-          ),
-          DrawerListTile(
-            title: "Finance",
-            press: () {
-              // Navigator.of(context).pushReplacement(
-              //   MaterialPageRoute(
-              //     builder: (context) => const FinanceScreen(),
-              //   ),
-              // );
-            },
-            icon: Icons.badge,
-          ),
-          Container(
-            padding: const EdgeInsets.all(10.0),
-            decoration: BoxDecoration(
-              borderRadius:
-                  BorderRadius.circular(0.0), // Adjust the radius as needed
-            ),
-            child: Row(
-              children: [
-                const Icon(
-                  Icons.badge,
-                ),
-                const SizedBox(width: 10.0),
-                const Expanded(
-                  child: Text(
-                    'Theme',
-                    style: TextStyle(
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    width: 40.0,
-                    height: 24.0,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(
-                          0.0), // Adjust the radius as needed
-                      color: Colors.grey, // Use appropriate colors
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          DrawerListTile(
-            title: "Logout",
-            press: () {},
-            icon: Icons.logout_outlined,
+            icon: Icons.payment_outlined,
           ),
         ],
       ),
@@ -155,8 +103,19 @@ class DrawerListTile extends StatelessWidget {
     return ListTile(
       onTap: press,
       horizontalTitleGap: 0.0,
-      leading:
-          imageIcon != null ? ImageIcon(AssetImage(imageIcon!)) : Icon(icon),
+      leading: imageIcon != null
+          ? ImageIcon(
+              AssetImage(
+                imageIcon!,
+              ),
+              color: AppColor.textColor2,
+              size: 20,
+            )
+          : Icon(
+              icon,
+              color: AppColor.textColor2,
+              size: 20,
+            ),
       minLeadingWidth: 40,
       title: Text(
         title,
@@ -165,7 +124,7 @@ class DrawerListTile extends StatelessWidget {
           textStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w600,
-            color: AppColor.primaryColor,
+            color: AppColor.textColor2,
           ),
         ),
       ),
