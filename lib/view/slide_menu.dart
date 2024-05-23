@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wallet_admin/res/components/colors.dart';
 import 'package:wallet_admin/view/mainScreen.dart';
-
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wallet_admin/view/user.dart';
+import 'package:wallet_admin/view/my_details.dart';
 import 'package:wallet_admin/view/user_screen.dart';
 
 class SideMenu extends StatefulWidget {
@@ -45,34 +44,23 @@ class _SideMenuState extends State<SideMenu> {
                   builder: (context) => const UsersScreen(),
                 ),
               );
-              // Navigator.of(context).pushReplacement(
-              //   MaterialPageRoute(
-              //     builder: (context) => const AllProducts(),
-              //   ),
-              // );
             },
             icon: Icons.group_outlined,
           ),
           DrawerListTile(
             title: "My Details",
             press: () {
-              // Navigator.of(context).pushReplacement(
-              //   MaterialPageRoute(
-              //     builder: (context) => const PopularPacks(),
-              //   ),
-              // );
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const MyDetails(),
+                ),
+              );
             },
             icon: Icons.data_exploration_outlined,
           ),
           DrawerListTile(
             title: "WithDraw",
-            press: () {
-              // Navigator.of(context).pushReplacement(
-              //   MaterialPageRoute(
-              //     builder: (context) => const FashionView(),
-              //   ),
-              // );
-            },
+            press: () {},
             icon: Icons.currency_exchange_outlined,
           ),
           DrawerListTile(
