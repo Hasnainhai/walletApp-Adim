@@ -17,8 +17,7 @@ class Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      padding: const EdgeInsets.symmetric(
-          horizontal: 30.0), // Add padding to left and right
+      padding: const EdgeInsets.symmetric(horizontal: 30.0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
