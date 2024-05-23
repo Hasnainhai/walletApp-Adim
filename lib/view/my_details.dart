@@ -72,7 +72,9 @@ class MyDetails extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      const RoundedButton(),
+                                      RoundedButton(
+                                        ontap: () {},
+                                      ),
                                     ],
                                   ),
                                   const VerticalSpeacing(40.0),
@@ -280,6 +282,171 @@ class MyDetails extends StatelessWidget {
                                               ),
                                             ),
                                           ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const VerticalSpeacing(16.0),
+                          //Subscribtions
+                          Container(
+                            height: 218,
+                            color: AppColor.whiteColor,
+                            child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'subscribtions',
+                                        style: GoogleFonts.getFont(
+                                          "Poppins",
+                                          textStyle: const TextStyle(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.w600,
+                                            color: AppColor.textColor1,
+                                          ),
+                                        ),
+                                      ),
+                                      RoundedButton(ontap: () {}),
+                                    ],
+                                  ),
+                                  const VerticalSpeacing(40.0),
+                                  SizedBox(
+                                    width: 800,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(
+                                          width: 800,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'month of subscribtions',
+                                                    style: GoogleFonts.getFont(
+                                                      "Poppins",
+                                                      textStyle:
+                                                          const TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color:
+                                                            AppColor.textColor1,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const VerticalSpeacing(10.0),
+                                                  ElevatedButton(
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      backgroundColor:
+                                                          AppColor.primaryColor,
+                                                    ),
+                                                    onPressed: () {},
+                                                    child: const Text(
+                                                      '6 months',
+                                                      style: TextStyle(
+                                                          color: AppColor
+                                                              .whiteColor),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    '6 month payment',
+                                                    style: GoogleFonts.getFont(
+                                                      "Poppins",
+                                                      textStyle:
+                                                          const TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color:
+                                                            AppColor.textColor1,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const VerticalSpeacing(10.0),
+                                                  ElevatedButton(
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      backgroundColor:
+                                                          AppColor.primaryColor,
+                                                    ),
+                                                    onPressed: () {},
+                                                    child: const Text(
+                                                      '₹200',
+                                                      style: TextStyle(
+                                                          color: AppColor
+                                                              .whiteColor),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'expire date',
+                                                    style: GoogleFonts.getFont(
+                                                      "Poppins",
+                                                      textStyle:
+                                                          const TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color:
+                                                            AppColor.textColor1,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const VerticalSpeacing(10.0),
+                                                  Text(
+                                                    '25/06/2025',
+                                                    style: GoogleFonts.getFont(
+                                                      "Poppins",
+                                                      textStyle:
+                                                          const TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color:
+                                                            AppColor.textColor1,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),

@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:wallet_admin/res/components/colors.dart';
 
 class RoundedButton extends StatelessWidget {
   const RoundedButton({
     super.key,
+    required this.ontap,
   });
+  final Function ontap;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        ontap();
+      },
       style: ElevatedButton.styleFrom(
           fixedSize: const Size(194, 44),
           padding: EdgeInsets.zero,
