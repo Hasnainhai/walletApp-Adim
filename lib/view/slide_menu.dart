@@ -6,6 +6,7 @@ import 'package:wallet_admin/view/my_details.dart';
 import 'package:wallet_admin/view/my_subscribtions.dart';
 import 'package:wallet_admin/view/user_screen.dart';
 import 'package:wallet_admin/view/users_subscribtions.dart';
+import 'package:wallet_admin/view/withdraw_users.dart';
 
 class SideMenu extends StatefulWidget {
   const SideMenu({
@@ -62,7 +63,13 @@ class _SideMenuState extends State<SideMenu> {
           ),
           DrawerListTile(
             title: "WithDraw",
-            press: () {},
+            press: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const WithdrawUsers(),
+                ),
+              );
+            },
             icon: Icons.currency_exchange_outlined,
           ),
           DrawerListTile(
