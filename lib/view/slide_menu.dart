@@ -3,6 +3,8 @@ import 'package:wallet_admin/res/components/colors.dart';
 import 'package:wallet_admin/view/mainScreen.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:wallet_admin/view/user.dart';
+import 'package:wallet_admin/view/user_screen.dart';
 
 class SideMenu extends StatefulWidget {
   const SideMenu({
@@ -38,6 +40,11 @@ class _SideMenuState extends State<SideMenu> {
           DrawerListTile(
             title: "Users",
             press: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const UsersScreen(),
+                ),
+              );
               // Navigator.of(context).pushReplacement(
               //   MaterialPageRoute(
               //     builder: (context) => const AllProducts(),
