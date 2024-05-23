@@ -21,6 +21,7 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
       key: getAddProductscaffoldKey,
       // key: context.read<MenuController>().getScaffoldKey,
       // drawer: const SideMenu(),
+
       body: SafeArea(
         child: Column(
           children: [
@@ -173,7 +174,7 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                           ),
                                           RoundedButton(
                                               ontap: () {},
-                                              title: 'Send message')
+                                              title: 'Send message'),
                                         ],
                                       ),
                                       const SizedBox(
