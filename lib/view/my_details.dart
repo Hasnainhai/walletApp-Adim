@@ -15,7 +15,7 @@ class MyDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: getAddProductscaffoldKey,
+      key: getOrderScaffoldKey,
       // key: context.read<MenuController>().getScaffoldKey,
       // drawer: const SideMenu(),
       body: SafeArea(
