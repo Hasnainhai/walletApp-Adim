@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wallet_admin/res/components/colors.dart';
 import 'package:wallet_admin/res/components/header.dart';
@@ -6,6 +8,7 @@ import 'package:wallet_admin/res/components/roundedButton.dart';
 import 'package:wallet_admin/res/keys.dart';
 import 'package:wallet_admin/res/responsive.dart';
 import 'package:wallet_admin/view/slide_menu.dart';
+import 'package:wallet_admin/view/widgets/add_field.dart';
 
 class UsersSubscribtions extends StatefulWidget {
   const UsersSubscribtions({super.key});
@@ -173,7 +176,9 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                             ],
                                           ),
                                           RoundedButton(
-                                              ontap: () {},
+                                              ontap: () {
+                                                showCustomDialog(context);
+                                              },
                                               title: 'Send message'),
                                         ],
                                       ),
@@ -607,6 +612,140 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
           ],
         ),
       ),
+    );
+  }
+
+  void showCustomDialog(BuildContext context) {
+    final TextEditingController messageController = TextEditingController();
+    List<String> messages = [];
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 20, bottom: 20),
+                child: Material(
+                  color: Colors.transparent,
+                  child: Container(
+                    width: 446.77,
+                    height: MediaQuery.of(context).size.height / 1.2,
+                    decoration: BoxDecoration(
+                      color: const Color(0xffF8F8F8),
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Center(
+                            child: Text(
+                              'Send Message',
+                              style: GoogleFonts.getFont(
+                                "Poppins",
+                                textStyle: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColor.textColor1,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 40,
+                          ),
+                          Expanded(
+                            child: ListView.builder(
+                              itemCount: messages.length,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Color(0xffFDFDFF),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      border: Border.all(
+                                        width: 1,
+                                        color: Color(0xffA5A6F6),
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        messages[index],
+                                        style: GoogleFonts.getFont(
+                                          "Poppins",
+                                          textStyle: const TextStyle(
+                                            fontSize: 14,
+                                            color: AppColor.textColor1,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: TextField(
+                                  controller: messageController,
+                                  decoration: InputDecoration(
+                                    hintText: 'Type a message',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 10,
+                                      horizontal: 12,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              GestureDetector(
+                                onTap: () {
+                                  if (messageController.text.isNotEmpty) {
+                                    setState(() {
+                                      messages.add(messageController.text);
+                                      messageController.clear();
+                                    });
+                                  }
+                                },
+                                child: Container(
+                                  height: 38,
+                                  width: 38,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: AppColor.primaryColor,
+                                  ),
+                                  child: const Icon(
+                                    Icons.send,
+                                    color: AppColor.whiteColor,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }
