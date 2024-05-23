@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wallet_admin/res/components/colors.dart';
 import 'package:wallet_admin/view/deposite.dart';
+import 'package:wallet_admin/view/increase_payment.dart';
 import 'package:wallet_admin/view/mainScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wallet_admin/view/my_details.dart';
@@ -105,6 +106,17 @@ class _SideMenuState extends State<SideMenu> {
               );
             },
             icon: Icons.subscript_outlined,
+          ),
+          DrawerListTile(
+            title: "Increase Payment",
+            press: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const IncreasePayment(),
+                ),
+              );
+            },
+            icon: Icons.format_indent_increase_sharp,
           ),
         ],
       ),
