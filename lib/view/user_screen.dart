@@ -5,6 +5,7 @@ import 'package:wallet_admin/res/components/header.dart';
 import 'package:wallet_admin/res/keys.dart';
 import 'package:wallet_admin/res/responsive.dart';
 import 'package:wallet_admin/view/slide_menu.dart';
+import 'package:wallet_admin/view/widgets/user_detai_field.dart';
 
 class UsersScreen extends StatefulWidget {
   const UsersScreen({super.key});
@@ -353,28 +354,36 @@ class _UsersScreenState extends State<UsersScreen> {
                                             ),
                                             Expanded(
                                               flex: 1,
-                                              child: Container(
-                                                height: 28,
-                                                width: 50,
-                                                decoration: BoxDecoration(
-                                                  color: AppColor.primaryColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(6),
-                                                ),
-                                                child: Center(
-                                                    child: Text(
-                                                  "View",
-                                                  style: GoogleFonts.getFont(
-                                                    "Poppins",
-                                                    textStyle: const TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color:
-                                                          AppColor.whiteColor,
-                                                    ),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  showCustomDialog(context);
+                                                },
+                                                child: Container(
+                                                  height: 28,
+                                                  width: 50,
+                                                  decoration: BoxDecoration(
+                                                    color:
+                                                        AppColor.primaryColor,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            6),
                                                   ),
-                                                )),
+                                                  child: Center(
+                                                      child: Text(
+                                                    "View",
+                                                    style: GoogleFonts.getFont(
+                                                      "Poppins",
+                                                      textStyle:
+                                                          const TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color:
+                                                            AppColor.whiteColor,
+                                                      ),
+                                                    ),
+                                                  )),
+                                                ),
                                               ),
                                             ),
                                             const SizedBox(
@@ -382,28 +391,38 @@ class _UsersScreenState extends State<UsersScreen> {
                                             ),
                                             Expanded(
                                               flex: 1,
-                                              child: Container(
-                                                height: 28,
-                                                width: 50,
-                                                decoration: BoxDecoration(
-                                                  color: AppColor.primaryColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(6),
-                                                ),
-                                                child: Center(
-                                                    child: Text(
-                                                  "Block",
-                                                  style: GoogleFonts.getFont(
-                                                    "Poppins",
-                                                    textStyle: const TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color:
-                                                          AppColor.whiteColor,
-                                                    ),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  blockDialog(
+                                                    context,
+                                                  );
+                                                },
+                                                child: Container(
+                                                  height: 28,
+                                                  width: 50,
+                                                  decoration: BoxDecoration(
+                                                    color:
+                                                        AppColor.primaryColor,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            6),
                                                   ),
-                                                )),
+                                                  child: Center(
+                                                      child: Text(
+                                                    "Block",
+                                                    style: GoogleFonts.getFont(
+                                                      "Poppins",
+                                                      textStyle:
+                                                          const TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color:
+                                                            AppColor.whiteColor,
+                                                      ),
+                                                    ),
+                                                  )),
+                                                ),
                                               ),
                                             ),
                                           ],
@@ -1047,6 +1066,163 @@ class _UsersScreenState extends State<UsersScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  void showCustomDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: const Color(0xffF8F8F8),
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          child: SizedBox(
+            width: 446.77,
+            height: MediaQuery.of(context).size.height / 2.8,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  Text(
+                    'Account details',
+                    style: GoogleFonts.getFont(
+                      "Poppins",
+                      textStyle: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: AppColor.textColor1,
+                      ),
+                    ),
+                  ),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      UserDetailField(
+                        title: "Name",
+                        data: "Hiren User",
+                      ),
+                      UserDetailField(
+                        title: "Email",
+                        data: "HirenUser@gmail.com",
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      UserDetailField(
+                        title: "Phone Number",
+                        data: "1234567891",
+                      ),
+                      UserDetailField(
+                        title: "Date",
+                        data: "22/2/2024",
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void blockDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: const Color(0xffF8F8F8),
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          child: SizedBox(
+            width: 446.77,
+            height: MediaQuery.of(context).size.height / 2,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  Text(
+                    'Are you sure you\n block this user',
+                    style: GoogleFonts.getFont(
+                      "Poppins",
+                      textStyle: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: AppColor.textColor1,
+                      ),
+                    ),
+                  ),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      UserDetailField(
+                        title: "Name",
+                        data: "Hiren User",
+                      ),
+                      UserDetailField(
+                        title: "Email",
+                        data: "HirenUser@gmail.com",
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      UserDetailField(
+                        title: "Phone Number",
+                        data: "1234567891",
+                      ),
+                      UserDetailField(
+                        title: "Date",
+                        data: "22/2/2024",
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Center(
+                    child: Container(
+                      height: 38,
+                      width: 143,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: AppColor.primaryColor),
+                      child: Center(
+                        child: Text(
+                          'Block',
+                          style: GoogleFonts.getFont(
+                            "Poppins",
+                            textStyle: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: AppColor.whiteColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
