@@ -16,25 +16,29 @@ class MainScreen extends StatelessWidget {
       // key: context.read<MenuController>().getScaffoldKey,
       // drawer: const SideMenu(),
       body: SafeArea(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Column(
           children: [
-            // We want this side menu only for large screen
-            if (Responsive.isDesktop(context))
-               Expanded(
-                // default flex = 1
-                // and it takes 1/6 part of the screen
-                child: Column(
-                  children: [
-                    Header(fct: (){}),
-                    SideMenu(),
-                  ],
-                ),
+            SizedBox(
+              height: 64,
+              child: Header(fct: () {}),
+            ),
+            const SizedBox(height: 12.0),
+            Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // We want this side menu only for large screen
+                  if (Responsive.isDesktop(context))
+                    const SizedBox(
+                      width: 250, // Set the width of the side menu
+                      child: SideMenu(),
+                    ),
+                  const Expanded(
+                    // It takes the remaining part of the screen
+                    child: DashboardScreen(),
+                  ),
+                ],
               ),
-            const Expanded(
-              // It takes 5/6 part of the screen
-              flex: 5,
-              child: DashboardScreen(),
             ),
           ],
         ),
