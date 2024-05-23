@@ -5,6 +5,7 @@ import 'package:wallet_admin/res/components/header.dart';
 import 'package:wallet_admin/res/keys.dart';
 import 'package:wallet_admin/res/responsive.dart';
 import 'package:wallet_admin/view/slide_menu.dart';
+import 'package:wallet_admin/view/widgets/user_detai_field.dart';
 
 class Deposite extends StatefulWidget {
   const Deposite({super.key});
@@ -286,28 +287,36 @@ class _DepositeState extends State<Deposite> {
                                             ),
                                             Expanded(
                                               flex: 1,
-                                              child: Container(
-                                                height: 28,
-                                                width: 50,
-                                                decoration: BoxDecoration(
-                                                  color: AppColor.primaryColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(6),
-                                                ),
-                                                child: Center(
-                                                    child: Text(
-                                                  "View",
-                                                  style: GoogleFonts.getFont(
-                                                    "Poppins",
-                                                    textStyle: const TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color:
-                                                          AppColor.whiteColor,
-                                                    ),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  showCustomDialog(context);
+                                                },
+                                                child: Container(
+                                                  height: 28,
+                                                  width: 50,
+                                                  decoration: BoxDecoration(
+                                                    color:
+                                                        AppColor.primaryColor,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            6),
                                                   ),
-                                                )),
+                                                  child: Center(
+                                                      child: Text(
+                                                    "View",
+                                                    style: GoogleFonts.getFont(
+                                                      "Poppins",
+                                                      textStyle:
+                                                          const TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color:
+                                                            AppColor.whiteColor,
+                                                      ),
+                                                    ),
+                                                  )),
+                                                ),
                                               ),
                                             ),
                                           ],
@@ -771,6 +780,116 @@ class _DepositeState extends State<Deposite> {
           ],
         ),
       ),
+    );
+  }
+
+  void showCustomDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: const Color(0xffF8F8F8),
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          child: SizedBox(
+            width: 446.77,
+            height: MediaQuery.of(context).size.height / 1.4,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  Text(
+                    'Account details',
+                    style: GoogleFonts.getFont(
+                      "Poppins",
+                      textStyle: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: AppColor.textColor1,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      UserDetailField(
+                        title: "Account Holder Name",
+                        data: "Hiren User",
+                      ),
+                      UserDetailField(
+                        title: "Bank Name",
+                        data: "UPI",
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      UserDetailField(
+                        title: "Account Number",
+                        data: "1234567891",
+                      ),
+                      UserDetailField(
+                        title: "Phone Number",
+                        data: "123456789",
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  Container(
+                    height: 94,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      image: const DecorationImage(
+                          image: NetworkImage(
+                              "https://www.shutterstock.com/image-vector/deposit-saving-account-bank-payment-600nw-796401049.jpg"),
+                          fit: BoxFit.cover),
+                      border: Border.all(
+                        color: AppColor.borderColor,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  Center(
+                    child: Container(
+                      height: 38,
+                      width: 143,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: AppColor.primaryColor),
+                      child: Center(
+                        child: Text(
+                          'Apporve',
+                          style: GoogleFonts.getFont(
+                            "Poppins",
+                            textStyle: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: AppColor.whiteColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
