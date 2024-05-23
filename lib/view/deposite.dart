@@ -850,7 +850,7 @@ class _DepositeState extends State<Deposite> {
                     height: 94,
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
-                      image: DecorationImage(
+                      image: const DecorationImage(
                           image: NetworkImage(
                               "https://www.shutterstock.com/image-vector/deposit-saving-account-bank-payment-600nw-796401049.jpg"),
                           fit: BoxFit.cover),
