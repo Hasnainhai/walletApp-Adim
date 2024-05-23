@@ -3,7 +3,9 @@ import 'package:wallet_admin/res/components/colors.dart';
 import 'package:wallet_admin/view/mainScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wallet_admin/view/my_details.dart';
+import 'package:wallet_admin/view/my_subscribtions.dart';
 import 'package:wallet_admin/view/user_screen.dart';
+import 'package:wallet_admin/view/users_subscribtions.dart';
 
 class SideMenu extends StatefulWidget {
   const SideMenu({
@@ -73,6 +75,28 @@ class _SideMenuState extends State<SideMenu> {
               // );
             },
             icon: Icons.payment_outlined,
+          ),
+          DrawerListTile(
+            title: "User Subscribtions",
+            press: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const UsersSubscribtions(),
+                ),
+              );
+            },
+            icon: Icons.subscript_outlined,
+          ),
+          DrawerListTile(
+            title: "My Subscribtions",
+            press: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const MySubscribtions(),
+                ),
+              );
+            },
+            icon: Icons.subscript_outlined,
           ),
         ],
       ),
