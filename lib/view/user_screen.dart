@@ -108,11 +108,25 @@ class UsersScreen extends StatelessWidget {
                                                   .width /
                                               13,
                                           decoration: const BoxDecoration(
-                                              color: AppColor.primaryColor,
-                                              borderRadius: BorderRadius.only(
-                                                topRight: Radius.circular(8),
-                                                bottomRight: Radius.circular(8),
-                                              )),
+                                            color: AppColor.primaryColor,
+                                            borderRadius: BorderRadius.only(
+                                              topRight: Radius.circular(8),
+                                              bottomRight: Radius.circular(8),
+                                            ),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              "Search",
+                                              style: GoogleFonts.getFont(
+                                                "Poppins",
+                                                textStyle: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: AppColor.whiteColor,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     )
