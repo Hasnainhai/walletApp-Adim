@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wallet_admin/res/components/colors.dart';
@@ -309,749 +310,190 @@ class _UsersScreenState extends State<UsersScreen> {
                                       const SizedBox(
                                         height: 30,
                                       ),
-                                      Container(
-                                        height: 38,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                          border: Border(
-                                            bottom: BorderSide(
-                                                color: Colors.grey[300]!),
-                                          ),
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            const Expanded(
-                                              flex: 1,
-                                              child: Center(
-                                                child: Text("1"),
-                                              ),
-                                            ),
-                                            const Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("Basit Ali"),
-                                              ),
-                                            ),
-                                            const Expanded(
-                                              flex: 4,
-                                              child: Center(
-                                                child: Text(
-                                                    "Basitalyshah51214@gmail.com"),
-                                              ),
-                                            ),
-                                            const Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("03554500599"),
-                                              ),
-                                            ),
-                                            const Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("22/4/2024"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 1,
-                                              child: InkWell(
-                                                onTap: () {
-                                                  showCustomDialog(context);
-                                                },
-                                                child: Container(
-                                                  height: 28,
-                                                  width: 50,
-                                                  decoration: BoxDecoration(
-                                                    color:
-                                                        AppColor.primaryColor,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            6),
-                                                  ),
-                                                  child: Center(
-                                                      child: Text(
-                                                    "View",
-                                                    style: GoogleFonts.getFont(
-                                                      "Poppins",
-                                                      textStyle:
-                                                          const TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w600,
+                                      StreamBuilder<QuerySnapshot>(
+                                        stream: FirebaseFirestore.instance
+                                            .collection('users')
+                                            .snapshots(),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasError) {
+                                            return Text(
+                                                'Error: ${snapshot.error}'); // Handle errors
+                                          }
+
+                                          if (!snapshot.hasData) {
+                                            return const Center(
+                                                child:
+                                                    CircularProgressIndicator()); // Show loading indicator
+                                          }
+
+                                          final documents = snapshot.data!.docs;
+                                          // Check if there are any documents
+                                          if (documents.isEmpty) {
+                                            return const Center(
+                                              child: Text(
+                                                  'No Users details found'),
+                                            ); // Handle no data scenario
+                                          }
+
+                                          return ListView.separated(
+                                            shrinkWrap: true,
+                                            itemCount: documents.length,
+                                            separatorBuilder:
+                                                (context, index) =>
+                                                    const SizedBox(height: 12),
+                                            itemBuilder: (context, index) {
+                                              // Safely retrieve and cast data for each document
+
+                                              final bankDetails =
+                                                  documents[index].data()
+                                                      as Map<String, dynamic>;
+                                              final String name =
+                                                  bankDetails['name'] ?? '';
+                                              final String email =
+                                                  bankDetails['email'] ?? 'N/A';
+                                              final String creationDate =
+                                                  bankDetails['createdAt'] ??
+                                                      'N/A';
+                                              final String userId =
+                                                  bankDetails['id'] ?? 'N/A';
+                                              final String phoneNumber =
+                                                  bankDetails['phone'] ?? 'N/A';
+
+                                              return Container(
+                                                height: 38,
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                decoration: BoxDecoration(
+                                                  border: Border(
+                                                    bottom: BorderSide(
                                                         color:
-                                                            AppColor.whiteColor,
+                                                            Colors.grey[300]!),
+                                                  ),
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    const Expanded(
+                                                      flex: 1,
+                                                      child: Center(
+                                                        child: Text("1"),
                                                       ),
                                                     ),
-                                                  )),
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              width: 8,
-                                            ),
-                                            Expanded(
-                                              flex: 1,
-                                              child: InkWell(
-                                                onTap: () {
-                                                  blockDialog(
-                                                    context,
-                                                  );
-                                                },
-                                                child: Container(
-                                                  height: 28,
-                                                  width: 50,
-                                                  decoration: BoxDecoration(
-                                                    color:
-                                                        AppColor.primaryColor,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            6),
-                                                  ),
-                                                  child: Center(
-                                                      child: Text(
-                                                    "Block",
-                                                    style: GoogleFonts.getFont(
-                                                      "Poppins",
-                                                      textStyle:
-                                                          const TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color:
-                                                            AppColor.whiteColor,
+                                                    Expanded(
+                                                      flex: 3,
+                                                      child: Center(
+                                                        child: Text(name),
                                                       ),
                                                     ),
-                                                  )),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 30,
-                                      ),
-                                      Container(
-                                        height: 38,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                          border: Border(
-                                            bottom: BorderSide(
-                                                color: Colors.grey[300]!),
-                                          ),
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            const Expanded(
-                                              flex: 1,
-                                              child: Center(
-                                                child: Text("2"),
-                                              ),
-                                            ),
-                                            const Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("Basit Ali"),
-                                              ),
-                                            ),
-                                            const Expanded(
-                                              flex: 4,
-                                              child: Center(
-                                                child: Text(
-                                                    "Basitalyshah51214@gmail.com"),
-                                              ),
-                                            ),
-                                            const Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("03554500599"),
-                                              ),
-                                            ),
-                                            const Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("22/4/2024"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 1,
-                                              child: Container(
-                                                height: 28,
-                                                width: 50,
-                                                decoration: BoxDecoration(
-                                                  color: AppColor.primaryColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(6),
-                                                ),
-                                                child: Center(
-                                                    child: Text(
-                                                  "View",
-                                                  style: GoogleFonts.getFont(
-                                                    "Poppins",
-                                                    textStyle: const TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color:
-                                                          AppColor.whiteColor,
+                                                    Expanded(
+                                                      flex: 4,
+                                                      child: Center(
+                                                        child: Text(email),
+                                                      ),
                                                     ),
-                                                  ),
-                                                )),
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              width: 8,
-                                            ),
-                                            Expanded(
-                                              flex: 1,
-                                              child: Container(
-                                                height: 28,
-                                                width: 50,
-                                                decoration: BoxDecoration(
-                                                  color: AppColor.primaryColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(6),
-                                                ),
-                                                child: Center(
-                                                    child: Text(
-                                                  "Block",
-                                                  style: GoogleFonts.getFont(
-                                                    "Poppins",
-                                                    textStyle: const TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color:
-                                                          AppColor.whiteColor,
+                                                    Expanded(
+                                                      flex: 3,
+                                                      child: Center(
+                                                        child:
+                                                            Text(phoneNumber),
+                                                      ),
                                                     ),
-                                                  ),
-                                                )),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                                    Expanded(
+                                                      flex: 3,
+                                                      child: Center(
+                                                        child:
+                                                            Text(creationDate),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          showCustomDialog(
+                                                              context);
+                                                        },
+                                                        child: Container(
+                                                          height: 28,
+                                                          width: 50,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: AppColor
+                                                                .primaryColor,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        6),
+                                                          ),
+                                                          child: Center(
+                                                              child: Text(
+                                                            "View",
+                                                            style: GoogleFonts
+                                                                .getFont(
+                                                              "Poppins",
+                                                              textStyle:
+                                                                  const TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                color: AppColor
+                                                                    .whiteColor,
+                                                              ),
+                                                            ),
+                                                          )),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 8,
+                                                    ),
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          blockDialog(
+                                                            context,
+                                                          );
+                                                        },
+                                                        child: Container(
+                                                          height: 28,
+                                                          width: 50,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: AppColor
+                                                                .primaryColor,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        6),
+                                                          ),
+                                                          child: Center(
+                                                              child: Text(
+                                                            "Block",
+                                                            style: GoogleFonts
+                                                                .getFont(
+                                                              "Poppins",
+                                                              textStyle:
+                                                                  const TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                color: AppColor
+                                                                    .whiteColor,
+                                                              ),
+                                                            ),
+                                                          )),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        },
                                       ),
-                                      const SizedBox(
-                                        height: 30,
-                                      ),
-                                      Container(
-                                        height: 38,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                          border: Border(
-                                            bottom: BorderSide(
-                                                color: Colors.grey[300]!),
-                                          ),
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            const Expanded(
-                                              flex: 1,
-                                              child: Center(
-                                                child: Text("3"),
-                                              ),
-                                            ),
-                                            const Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("Basit Ali"),
-                                              ),
-                                            ),
-                                            const Expanded(
-                                              flex: 4,
-                                              child: Center(
-                                                child: Text(
-                                                    "Basitalyshah51214@gmail.com"),
-                                              ),
-                                            ),
-                                            const Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("03554500599"),
-                                              ),
-                                            ),
-                                            const Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("22/4/2024"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 1,
-                                              child: Container(
-                                                height: 28,
-                                                width: 50,
-                                                decoration: BoxDecoration(
-                                                  color: AppColor.primaryColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(6),
-                                                ),
-                                                child: Center(
-                                                    child: Text(
-                                                  "View",
-                                                  style: GoogleFonts.getFont(
-                                                    "Poppins",
-                                                    textStyle: const TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color:
-                                                          AppColor.whiteColor,
-                                                    ),
-                                                  ),
-                                                )),
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              width: 8,
-                                            ),
-                                            Expanded(
-                                              flex: 1,
-                                              child: Container(
-                                                height: 28,
-                                                width: 50,
-                                                decoration: BoxDecoration(
-                                                  color: AppColor.primaryColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(6),
-                                                ),
-                                                child: Center(
-                                                    child: Text(
-                                                  "Block",
-                                                  style: GoogleFonts.getFont(
-                                                    "Poppins",
-                                                    textStyle: const TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color:
-                                                          AppColor.whiteColor,
-                                                    ),
-                                                  ),
-                                                )),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 30,
-                                      ),
-                                      Container(
-                                        height: 38,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                          border: Border(
-                                            bottom: BorderSide(
-                                                color: Colors.grey[300]!),
-                                          ),
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            const Expanded(
-                                              flex: 1,
-                                              child: Center(
-                                                child: Text("4"),
-                                              ),
-                                            ),
-                                            const Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("Basit Ali"),
-                                              ),
-                                            ),
-                                            const Expanded(
-                                              flex: 4,
-                                              child: Center(
-                                                child: Text(
-                                                    "Basitalyshah51214@gmail.com"),
-                                              ),
-                                            ),
-                                            const Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("03554500599"),
-                                              ),
-                                            ),
-                                            const Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("22/4/2024"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 1,
-                                              child: Container(
-                                                height: 28,
-                                                width: 50,
-                                                decoration: BoxDecoration(
-                                                  color: AppColor.primaryColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(6),
-                                                ),
-                                                child: Center(
-                                                    child: Text(
-                                                  "View",
-                                                  style: GoogleFonts.getFont(
-                                                    "Poppins",
-                                                    textStyle: const TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color:
-                                                          AppColor.whiteColor,
-                                                    ),
-                                                  ),
-                                                )),
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              width: 8,
-                                            ),
-                                            Expanded(
-                                              flex: 1,
-                                              child: Container(
-                                                height: 28,
-                                                width: 50,
-                                                decoration: BoxDecoration(
-                                                  color: AppColor.primaryColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(6),
-                                                ),
-                                                child: Center(
-                                                    child: Text(
-                                                  "Block",
-                                                  style: GoogleFonts.getFont(
-                                                    "Poppins",
-                                                    textStyle: const TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color:
-                                                          AppColor.whiteColor,
-                                                    ),
-                                                  ),
-                                                )),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 30,
-                                      ),
-                                      Container(
-                                        height: 38,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                          border: Border(
-                                            bottom: BorderSide(
-                                                color: Colors.grey[300]!),
-                                          ),
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            const Expanded(
-                                              flex: 1,
-                                              child: Center(
-                                                child: Text("5"),
-                                              ),
-                                            ),
-                                            const Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("Basit Ali"),
-                                              ),
-                                            ),
-                                            const Expanded(
-                                              flex: 4,
-                                              child: Center(
-                                                child: Text(
-                                                    "Basitalyshah51214@gmail.com"),
-                                              ),
-                                            ),
-                                            const Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("03554500599"),
-                                              ),
-                                            ),
-                                            const Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("22/4/2024"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 1,
-                                              child: Container(
-                                                height: 28,
-                                                width: 50,
-                                                decoration: BoxDecoration(
-                                                  color: AppColor.primaryColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(6),
-                                                ),
-                                                child: Center(
-                                                    child: Text(
-                                                  "View",
-                                                  style: GoogleFonts.getFont(
-                                                    "Poppins",
-                                                    textStyle: const TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color:
-                                                          AppColor.whiteColor,
-                                                    ),
-                                                  ),
-                                                )),
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              width: 8,
-                                            ),
-                                            Expanded(
-                                              flex: 1,
-                                              child: Container(
-                                                height: 28,
-                                                width: 50,
-                                                decoration: BoxDecoration(
-                                                  color: AppColor.primaryColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(6),
-                                                ),
-                                                child: Center(
-                                                    child: Text(
-                                                  "Block",
-                                                  style: GoogleFonts.getFont(
-                                                    "Poppins",
-                                                    textStyle: const TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color:
-                                                          AppColor.whiteColor,
-                                                    ),
-                                                  ),
-                                                )),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 30,
-                                      ),
-                                      Container(
-                                        height: 38,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                          border: Border(
-                                            bottom: BorderSide(
-                                                color: Colors.grey[300]!),
-                                          ),
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            const Expanded(
-                                              flex: 1,
-                                              child: Center(
-                                                child: Text("6"),
-                                              ),
-                                            ),
-                                            const Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("Basit Ali"),
-                                              ),
-                                            ),
-                                            const Expanded(
-                                              flex: 4,
-                                              child: Center(
-                                                child: Text(
-                                                    "Basitalyshah51214@gmail.com"),
-                                              ),
-                                            ),
-                                            const Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("03554500599"),
-                                              ),
-                                            ),
-                                            const Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("22/4/2024"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 1,
-                                              child: Container(
-                                                height: 28,
-                                                width: 50,
-                                                decoration: BoxDecoration(
-                                                  color: AppColor.primaryColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(6),
-                                                ),
-                                                child: Center(
-                                                    child: Text(
-                                                  "View",
-                                                  style: GoogleFonts.getFont(
-                                                    "Poppins",
-                                                    textStyle: const TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color:
-                                                          AppColor.whiteColor,
-                                                    ),
-                                                  ),
-                                                )),
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              width: 8,
-                                            ),
-                                            Expanded(
-                                              flex: 1,
-                                              child: Container(
-                                                height: 28,
-                                                width: 50,
-                                                decoration: BoxDecoration(
-                                                  color: AppColor.primaryColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(6),
-                                                ),
-                                                child: Center(
-                                                    child: Text(
-                                                  "Block",
-                                                  style: GoogleFonts.getFont(
-                                                    "Poppins",
-                                                    textStyle: const TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color:
-                                                          AppColor.whiteColor,
-                                                    ),
-                                                  ),
-                                                )),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 30,
-                                      ),
-                                      Container(
-                                        height: 38,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                          border: Border(
-                                            bottom: BorderSide(
-                                                color: Colors.grey[300]!),
-                                          ),
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            const Expanded(
-                                              flex: 1,
-                                              child: Center(
-                                                child: Text("7"),
-                                              ),
-                                            ),
-                                            const Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("Basit Ali"),
-                                              ),
-                                            ),
-                                            const Expanded(
-                                              flex: 4,
-                                              child: Center(
-                                                child: Text(
-                                                    "Basitalyshah51214@gmail.com"),
-                                              ),
-                                            ),
-                                            const Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("03554500599"),
-                                              ),
-                                            ),
-                                            const Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("22/4/2024"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 1,
-                                              child: Container(
-                                                height: 28,
-                                                width: 50,
-                                                decoration: BoxDecoration(
-                                                  color: AppColor.primaryColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(6),
-                                                ),
-                                                child: Center(
-                                                    child: Text(
-                                                  "View",
-                                                  style: GoogleFonts.getFont(
-                                                    "Poppins",
-                                                    textStyle: const TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color:
-                                                          AppColor.whiteColor,
-                                                    ),
-                                                  ),
-                                                )),
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              width: 8,
-                                            ),
-                                            Expanded(
-                                              flex: 1,
-                                              child: Container(
-                                                height: 28,
-                                                width: 50,
-                                                decoration: BoxDecoration(
-                                                  color: AppColor.primaryColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(6),
-                                                ),
-                                                child: Center(
-                                                    child: Text(
-                                                  "Block",
-                                                  style: GoogleFonts.getFont(
-                                                    "Poppins",
-                                                    textStyle: const TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color:
-                                                          AppColor.whiteColor,
-                                                    ),
-                                                  ),
-                                                )),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
                                     ],
                                   ),
                                 ),
