@@ -7,6 +7,7 @@ import 'package:wallet_admin/res/keys.dart';
 import 'package:wallet_admin/res/responsive.dart';
 import 'package:wallet_admin/view/slide_menu.dart';
 import 'package:wallet_admin/view/widgets/user_detai_field.dart';
+import 'package:intl/intl.dart';
 
 class UsersScreen extends StatefulWidget {
   const UsersScreen({super.key});
@@ -351,14 +352,19 @@ class _UsersScreenState extends State<UsersScreen> {
                                                   bankDetails['name'] ?? '';
                                               final String email =
                                                   bankDetails['email'] ?? 'N/A';
-                                              final String creationDate =
+                                              final Timestamp creationDate =
                                                   bankDetails['createdAt'] ??
                                                       'N/A';
                                               final String userId =
                                                   bankDetails['id'] ?? 'N/A';
                                               final String phoneNumber =
                                                   bankDetails['phone'] ?? 'N/A';
-
+                                              DateTime dateTime =
+                                                  creationDate.toDate();
+                                              // Format DateTime to string
+                                              String formattedDate =
+                                                  DateFormat('yyyy-MM-dd')
+                                                      .format(dateTime);
                                               return Container(
                                                 height: 38,
                                                 width: MediaQuery.of(context)
@@ -402,7 +408,7 @@ class _UsersScreenState extends State<UsersScreen> {
                                                       flex: 3,
                                                       child: Center(
                                                         child:
-                                                            Text(creationDate),
+                                                            Text(formattedDate),
                                                       ),
                                                     ),
                                                     Expanded(
