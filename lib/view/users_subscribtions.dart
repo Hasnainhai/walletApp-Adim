@@ -1,11 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:wallet_admin/res/components/colors.dart';
 import 'package:wallet_admin/res/components/header.dart';
 import 'package:wallet_admin/res/components/roundedButton.dart';
 import 'package:wallet_admin/res/keys.dart';
 import 'package:wallet_admin/res/responsive.dart';
 import 'package:wallet_admin/view/slide_menu.dart';
+import 'package:wallet_admin/view/widgets/user_detai_field.dart';
 
 class UsersSubscribtions extends StatefulWidget {
   const UsersSubscribtions({super.key});
@@ -15,6 +18,39 @@ class UsersSubscribtions extends StatefulWidget {
 }
 
 class _UsersSubscribtionsState extends State<UsersSubscribtions> {
+  String searchTerm = '';
+  String selectedCategory = 'All'; // Default to show all users
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController.addListener(_onSearchChanged);
+  }
+
+  @override
+  void dispose() {
+    _searchController.removeListener(_onSearchChanged);
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _onSearchChanged() {
+    setState(() {
+      searchTerm = _searchController.text;
+    });
+  }
+
+  Stream<QuerySnapshot> _getUserStream() {
+    CollectionReference users =
+        FirebaseFirestore.instance.collection('subscriptionRequests');
+    if (searchTerm.isNotEmpty) {
+      return users.where('userName', isEqualTo: searchTerm).snapshots();
+    } else {
+      return users.snapshots();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,8 +153,10 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                                         Radius.circular(8),
                                                   ),
                                                 ),
-                                                child: const TextField(
-                                                  decoration: InputDecoration(
+                                                child: TextField(
+                                                  controller: _searchController,
+                                                  decoration:
+                                                      const InputDecoration(
                                                     isDense: true,
                                                     contentPadding:
                                                         EdgeInsets.symmetric(
@@ -133,7 +171,7 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                                   ),
                                                   textAlignVertical:
                                                       TextAlignVertical.center,
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       color: Colors.black),
                                                 ),
                                               ),
@@ -214,10 +252,10 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                               ),
                                             ),
                                             Expanded(
-                                              flex: 4,
+                                              flex: 3,
                                               child: Center(
                                                 child: Text(
-                                                  'Gmail',
+                                                  'Subscribation Charges',
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.black,
@@ -229,7 +267,7 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                               flex: 3,
                                               child: Center(
                                                 child: Text(
-                                                  'Subscribtions',
+                                                  'Subscribtions Duration',
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.black,
@@ -249,53 +287,16 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                                 ),
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 30,
-                                      ),
-                                      Container(
-                                        height: 38,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                          border: Border(
-                                            bottom: BorderSide(
-                                                color: Colors.grey[300]!),
-                                          ),
-                                        ),
-                                        child: const Row(
-                                          children: [
                                             Expanded(
                                               flex: 1,
                                               child: Center(
-                                                child: Text("1"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("Basit Ali"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 4,
-                                              child: Center(
                                                 child: Text(
-                                                    "Basitalyshah51214@gmail.com"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("6 months"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("22/4/2024"),
+                                                  'Date',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.transparent,
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ],
@@ -304,297 +305,172 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                       const SizedBox(
                                         height: 30,
                                       ),
-                                      Container(
-                                        height: 38,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                          border: Border(
-                                            bottom: BorderSide(
-                                                color: Colors.grey[300]!),
-                                          ),
-                                        ),
-                                        child: const Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 1,
-                                              child: Center(
-                                                child: Text("2"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("Basit Ali"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 4,
-                                              child: Center(
-                                                child: Text(
-                                                    "Basitalyshah51214@gmail.com"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("3 months"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("22/4/2024"),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                      StreamBuilder<QuerySnapshot>(
+                                        stream: _getUserStream(),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasError) {
+                                            return Text(
+                                                'Error: ${snapshot.error}'); // Handle errors
+                                          }
+
+                                          if (!snapshot.hasData) {
+                                            return const Center(
+                                                child:
+                                                    CircularProgressIndicator()); // Show loading indicator
+                                          }
+
+                                          final documents = snapshot.data!.docs;
+                                          // Check if there are any documents
+                                          if (documents.isEmpty) {
+                                            return const Center(
+                                              child: Text(
+                                                  'No Users details found'),
+                                            ); // Handle no data scenario
+                                          }
+
+                                          return ListView.separated(
+                                            shrinkWrap: true,
+                                            itemCount: documents.length,
+                                            separatorBuilder:
+                                                (context, index) =>
+                                                    const SizedBox(height: 12),
+                                            itemBuilder: (context, index) {
+                                              // Safely retrieve and cast data for each document
+
+                                              final bankDetails =
+                                                  documents[index].data()
+                                                      as Map<String, dynamic>;
+                                              final String name =
+                                                  bankDetails['userName'] ?? '';
+                                              final int userBalance = bankDetails[
+                                                      'usercurrentBalance'] ??
+                                                  'N/A';
+                                              final String creationDate =
+                                                  bankDetails['dateTime'] ??
+                                                      'N/A';
+                                              final String status = bankDetails[
+                                                      'subscribtionStatus'] ??
+                                                  'N/A';
+                                              // final String charges = bankDetails[
+                                              //         'usercurrentBalance'] ??
+                                              //     'N/A';
+                                              final String subCharges =
+                                                  bankDetails[
+                                                          'subscribtionCharges'] ??
+                                                      'N/A';
+                                              final String duration = bankDetails[
+                                                      'subscriptionDuration'] ??
+                                                  'N/A';
+                                              final String requestId =
+                                                  bankDetails['Uuid'] ?? 'N/A';
+                                              final String userId =
+                                                  bankDetails['userId'] ??
+                                                      'N/A';
+
+                                              // Format DateTime to string
+
+                                              return Container(
+                                                height: 38,
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                decoration: BoxDecoration(
+                                                  border: Border(
+                                                    bottom: BorderSide(
+                                                        color:
+                                                            Colors.grey[300]!),
+                                                  ),
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Center(
+                                                        child: Text(
+                                                            index.toString()),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      flex: 3,
+                                                      child: Center(
+                                                        child: Text(name),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      flex: 3,
+                                                      child: Center(
+                                                        child: Text(subCharges
+                                                            .toString()),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      flex: 3,
+                                                      child: Center(
+                                                        child: Text(duration),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      flex: 3,
+                                                      child: Center(
+                                                        child:
+                                                            Text(creationDate),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          subPopup(
+                                                            context,
+                                                            name,
+                                                            subCharges,
+                                                            userBalance,
+                                                            duration,
+                                                            status,
+                                                            creationDate,
+                                                            userId,
+                                                            requestId,
+                                                          );
+                                                        },
+                                                        child: Container(
+                                                          height: 28,
+                                                          width: 50,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: AppColor
+                                                                .primaryColor,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        6),
+                                                          ),
+                                                          child: Center(
+                                                              child: Text(
+                                                            "View",
+                                                            style: GoogleFonts
+                                                                .getFont(
+                                                              "Poppins",
+                                                              textStyle:
+                                                                  const TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                color: AppColor
+                                                                    .whiteColor,
+                                                              ),
+                                                            ),
+                                                          )),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        },
                                       ),
-                                      const SizedBox(
-                                        height: 30,
-                                      ),
-                                      Container(
-                                        height: 38,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                          border: Border(
-                                            bottom: BorderSide(
-                                                color: Colors.grey[300]!),
-                                          ),
-                                        ),
-                                        child: const Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 1,
-                                              child: Center(
-                                                child: Text("3"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("Basit Ali"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 4,
-                                              child: Center(
-                                                child: Text(
-                                                    "Basitalyshah51214@gmail.com"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("6 months"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("22/4/2024"),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 30,
-                                      ),
-                                      Container(
-                                        height: 38,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                          border: Border(
-                                            bottom: BorderSide(
-                                                color: Colors.grey[300]!),
-                                          ),
-                                        ),
-                                        child: const Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 1,
-                                              child: Center(
-                                                child: Text("4"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("Basit Ali"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 4,
-                                              child: Center(
-                                                child: Text(
-                                                    "Basitalyshah51214@gmail.com"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("6 months"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("22/4/2024"),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 30,
-                                      ),
-                                      Container(
-                                        height: 38,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                          border: Border(
-                                            bottom: BorderSide(
-                                                color: Colors.grey[300]!),
-                                          ),
-                                        ),
-                                        child: const Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 1,
-                                              child: Center(
-                                                child: Text("5"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("Basit Ali"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 4,
-                                              child: Center(
-                                                child: Text(
-                                                    "Basitalyshah51214@gmail.com"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("6 months"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("22/4/2024"),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 30,
-                                      ),
-                                      Container(
-                                        height: 38,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                          border: Border(
-                                            bottom: BorderSide(
-                                                color: Colors.grey[300]!),
-                                          ),
-                                        ),
-                                        child: const Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 1,
-                                              child: Center(
-                                                child: Text("6"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("Basit Ali"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 4,
-                                              child: Center(
-                                                child: Text(
-                                                    "Basitalyshah51214@gmail.com"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("6 months"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("22/4/2024"),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 30,
-                                      ),
-                                      Container(
-                                        height: 38,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                          border: Border(
-                                            bottom: BorderSide(
-                                                color: Colors.grey[300]!),
-                                          ),
-                                        ),
-                                        child: const Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 1,
-                                              child: Center(
-                                                child: Text("7"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("Basit Ali"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 4,
-                                              child: Center(
-                                                child: Text(
-                                                    "Basitalyshah51214@gmail.com"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("6 months"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 3,
-                                              child: Center(
-                                                child: Text("22/4/2024"),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
                                     ],
                                   ),
                                 ),
@@ -609,6 +485,127 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
           ],
         ),
       ),
+    );
+  }
+
+  void subPopup(
+    BuildContext context,
+    String name,
+    String subCharge,
+    int balance,
+    String duration,
+    String status,
+    String date,
+    String userId,
+    String requestId,
+  ) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: const Color(0xffF8F8F8),
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width / 2.8,
+            height: MediaQuery.of(context).size.height / 1.8,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  Text(
+                    'Account details',
+                    style: GoogleFonts.getFont(
+                      "Poppins",
+                      textStyle: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: AppColor.textColor1,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      UserDetailField(
+                        title: "Name",
+                        data: name,
+                      ),
+                      UserDetailField(
+                        title: "Subscribtion Charges",
+                        data: subCharge,
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      UserDetailField(
+                        title: "Current Balance",
+                        data: balance.toString(),
+                      ),
+                      UserDetailField(
+                        title: "Date",
+                        data: date,
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      UserDetailField(
+                        title: "Subscribtion Duration",
+                        data: duration,
+                      ),
+                      UserDetailField(
+                        title: "subscribtion Status",
+                        data: status,
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: Container(
+                      height: 38,
+                      width: 143,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: AppColor.primaryColor),
+                      child: Center(
+                        child: Text(
+                          'Approve',
+                          style: GoogleFonts.getFont(
+                            "Poppins",
+                            textStyle: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: AppColor.whiteColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
