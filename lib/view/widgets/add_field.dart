@@ -1,11 +1,19 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import 'package:wallet_admin/res/components/colors.dart';
 
 class AddField extends StatelessWidget {
-  const AddField({super.key, required this.title, this.controller});
+  const AddField({
+    super.key,
+    required this.title,
+    this.controller,
+    this.keyboardType,
+  });
   final String title;
   final TextEditingController? controller;
+  final TextInputType? keyboardType;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -37,6 +45,7 @@ class AddField extends StatelessWidget {
             child: Center(
               child: TextField(
                 controller: controller,
+                keyboardType: keyboardType,
                 style: GoogleFonts.getFont(
                   "Poppins",
                   textStyle: const TextStyle(
