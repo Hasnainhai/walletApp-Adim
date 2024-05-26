@@ -15,6 +15,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   int _totalUserCount = 0;
   int _blockedUserCount = 0;
   double _totalFunds = 0.0;
+  double _totalwithdraw = 0.0;
 
   @override
   void initState() {
@@ -32,15 +33,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
           .get();
 
       double totalFunds = 0.0;
+      double totalWithdraw = 0.0; // Changed variable name to camelCase
       for (var doc in totalUsersSnapshot.docs) {
-        // Ensure the balance is treated as a number
+        // Ensure the balance and withdrawalAmount are treated as numbers
         totalFunds += (doc['balance'] as num).toDouble();
+
+        // Check if the user has a withdrawalAmount field and add it to totalWithdraw
+        var userData = doc.data() as Map<String, dynamic>?; // Explicit cast
+        if (userData != null && userData.containsKey('withdrawamount')) {
+          totalWithdraw += (userData['withdrawamount'] as num).toDouble();
+        }
       }
 
       setState(() {
         _totalUserCount = totalUsersSnapshot.docs.length;
         _blockedUserCount = blockedUsersSnapshot.docs.length;
         _totalFunds = totalFunds;
+        _totalwithdraw = totalWithdraw;
       });
     } catch (e) {
       print('Error fetching data: $e');
@@ -75,10 +84,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   iconColor: AppColor.primaryColor,
                   title: '₹$_totalFunds',
                   subtitle: 'Total Funds'),
-              const DashboardWidget(
+              DashboardWidget(
                   icon: Icons.currency_rupee_outlined,
                   iconColor: AppColor.primaryColor,
-                  title: '₹10000',
+                  title: '₹$_totalwithdraw',
                   subtitle: 'Total Withdraws'),
             ],
           ),

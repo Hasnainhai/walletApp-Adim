@@ -48,19 +48,38 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
           double currentBalance = (userData['balance'] as num).toDouble();
           double newBalance = currentBalance - incrementAmount;
 
+          if (userData.containsKey("withdrawamount")) {
+            double withdraw = userData["withdrawamount"] + incrementAmount;
+            await firestore
+                .doc(userId)
+                .update({"balance": newBalance, "withdrawamount": withdraw});
+
+            // Update the status in the deposite_request subcollection
+            await depositeRequestRef.update({
+              "status": "accepted",
+              "updatedAt":
+                  FieldValue.serverTimestamp() // Optional: add a timestamp
+            });
+
+            Utils.toastMessage(
+                "User balance and request status updated successfully.");
+            Navigator.pop(context);
+          } else {
+            await firestore.doc(userId).update(
+                {"balance": newBalance, "withdrawamount": incrementAmount});
+
+            // Update the status in the deposite_request subcollection
+            await depositeRequestRef.update({
+              "status": "accepted",
+              "updatedAt":
+                  FieldValue.serverTimestamp() // Optional: add a timestamp
+            });
+
+            Utils.toastMessage(
+                "User balance and request status updated successfully.");
+            Navigator.pop(context);
+          }
           // Update the user's balance
-          await firestore.doc(userId).update({"balance": newBalance});
-
-          // Update the status in the deposite_request subcollection
-          await depositeRequestRef.update({
-            "status": "accepted",
-            "updatedAt":
-                FieldValue.serverTimestamp() // Optional: add a timestamp
-          });
-
-          Utils.toastMessage(
-              "User balance and request status updated successfully.");
-          Navigator.pop(context);
         } else {
           debugPrint("User data does not contain a balance field.");
         }
