@@ -1,7 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
+import 'package:uuid/uuid.dart';
+import 'package:wallet_admin/Utils/utils.dart';
 import 'package:wallet_admin/res/components/colors.dart';
 import 'package:wallet_admin/res/components/header.dart';
 import 'package:wallet_admin/res/components/roundedButton.dart';
@@ -21,6 +24,7 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
   String searchTerm = '';
   String selectedCategory = 'All'; // Default to show all users
   final TextEditingController _searchController = TextEditingController();
+  final TextEditingController messageController = TextEditingController();
 
   @override
   void initState() {
@@ -48,6 +52,66 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
       return users.where('userName', isEqualTo: searchTerm).snapshots();
     } else {
       return users.snapshots();
+    }
+  }
+
+  Future<void> updateSubscriptionStatus(String userId, String requestId) async {
+    try {
+      var userRef = FirebaseFirestore.instance.collection("users");
+      var requestRef =
+          FirebaseFirestore.instance.collection("subscriptionRequests");
+
+      // Start a batch to ensure all operations succeed or fail together
+      WriteBatch batch = FirebaseFirestore.instance.batch();
+
+      // Update the user's category to Subscribed
+      batch.update(userRef.doc(userId), {"category": "Subscribed"});
+
+      // Update the user's subscription request status to Active
+      batch.update(
+          userRef.doc(userId).collection("subscriptionRequests").doc(requestId),
+          {"subscribtionStatus": "Active"});
+
+      // Update the withdraw request status to Active
+      batch.update(requestRef.doc(requestId), {"subscribtionStatus": "Active"});
+
+      // Commit the batch
+      await batch.commit();
+      Navigator.pop(context);
+      Utils.toastMessage("Subscription status updated successfully.");
+    } catch (e) {
+      Utils.toastMessage("Failed to update subscription status");
+    }
+  }
+
+  Future<void> createChatNodesForSubscribedUsers() async {
+    try {
+      var userRef = FirebaseFirestore.instance.collection("users");
+      var uuid = const Uuid().v4();
+      var chatData = {
+        'message': messageController.text,
+        'timestamp': FieldValue.serverTimestamp(),
+        'status': 'unread'
+      };
+      var subscribedUsersQuery =
+          await userRef.where("category", isEqualTo: "Subscribed").get();
+      FirebaseFirestore.instance.collection("Chats").doc(uuid).set(chatData);
+      for (var doc in subscribedUsersQuery.docs) {
+        var userId = doc.id;
+
+        // Generate a unique ID for the new chat document
+
+        // Create a map with the data you want to store in the new chat document
+
+        // Create the chat node and the new document with the generated UUID
+        await userRef.doc(userId).collection('chat').doc(uuid).set(chatData);
+        setState(() {
+          messageController.clear();
+        });
+      }
+      ;
+    } catch (e) {
+      print("Failed to create chat nodes: $e");
     }
   }
 
@@ -578,7 +642,14 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                     height: 20,
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      if (status == "Active") {
+                        Utils.toastMessage("Status has Been already update!");
+                        Navigator.pop(context);
+                      } else {
+                        updateSubscriptionStatus(userId, requestId);
+                      }
+                    },
                     child: Container(
                       height: 38,
                       width: 143,
@@ -610,9 +681,6 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
   }
 
   void showCustomDialog(BuildContext context) {
-    final TextEditingController messageController = TextEditingController();
-    List<String> messages = [];
-
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -653,34 +721,88 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                             height: 40,
                           ),
                           Expanded(
-                            child: ListView.builder(
-                              itemCount: messages.length,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xffFDFDFF),
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      border: Border.all(
-                                        width: 1,
-                                        color: const Color(0xffA5A6F6),
-                                      ),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        messages[index],
-                                        style: GoogleFonts.getFont(
-                                          "Poppins",
-                                          textStyle: const TextStyle(
-                                            fontSize: 14,
-                                            color: AppColor.textColor1,
+                            child: StreamBuilder<QuerySnapshot>(
+                              stream: FirebaseFirestore.instance
+                                  .collection("Chats")
+                                  .snapshots(),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasError) {
+                                  return Text(
+                                      'Error: ${snapshot.error}'); // Handle errors
+                                }
+
+                                if (!snapshot.hasData) {
+                                  return const Center(
+                                      child:
+                                          CircularProgressIndicator()); // Show loading indicator
+                                }
+
+                                final documents = snapshot.data!.docs;
+                                // Check if there are any documents
+                                if (documents.isEmpty) {
+                                  return const Center(
+                                    child: Text('No chats to show'),
+                                  ); // Handle no data scenario
+                                }
+
+                                return ListView.separated(
+                                  shrinkWrap: true,
+                                  itemCount: documents.length,
+                                  separatorBuilder: (context, index) =>
+                                      const SizedBox(height: 12),
+                                  itemBuilder: (context, index) {
+                                    // Safely retrieve and cast data for each document
+
+                                    final bankDetails = documents[index].data()
+                                        as Map<String, dynamic>;
+                                    final String message =
+                                        bankDetails['message'] ?? '';
+                                    // final String email =
+                                    //     bankDetails['email'] ?? 'N/A';
+                                    // final Timestamp creationDate =
+                                    //     bankDetails['createdAt'] ?? 'N/A';
+                                    // final String userId =
+                                    //     bankDetails['id'] ?? 'N/A';
+                                    // final String phoneNumber =
+                                    //     bankDetails['phone'] ?? 'N/A';
+                                    // final bool isBlock =
+                                    //     bankDetails['isBlock'] ?? 'N/A';
+                                    // final int balance =
+                                    //     bankDetails['balance'] ?? 'N/A';
+                                    // final String category =
+                                    //     bankDetails['category'] ?? 'N/A';
+                                    // DateTime dateTime = creationDate.toDate();
+                                    // // Format DateTime to string
+                                    // String formattedDate =
+                                    //     DateFormat('yyyy-MM-dd').format(dateTime);
+                                    return Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xffFDFDFF),
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          border: Border.all(
+                                            width: 1,
+                                            color: const Color(0xffA5A6F6),
+                                          ),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            message,
+                                            style: GoogleFonts.getFont(
+                                              "Poppins",
+                                              textStyle: const TextStyle(
+                                                fontSize: 14,
+                                                color: AppColor.textColor1,
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ),
+                                    );
+                                  },
                                 );
                               },
                             ),
@@ -709,10 +831,7 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                               GestureDetector(
                                 onTap: () {
                                   if (messageController.text.isNotEmpty) {
-                                    setState(() {
-                                      messages.add(messageController.text);
-                                      messageController.clear();
-                                    });
+                                    createChatNodesForSubscribedUsers();
                                   }
                                 },
                                 child: Container(
