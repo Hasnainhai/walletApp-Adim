@@ -356,9 +356,7 @@ class _IncreasePaymentState extends State<IncreasePayment> {
                                               final double balance =
                                                   bankDetails['balance'] ??
                                                       'N/A';
-                                              final String category =
-                                                  bankDetails['category'] ??
-                                                      'N/A';
+
                                               double incrementBalance =
                                                   balance * 0.05;
                                               DateTime dateTime =
