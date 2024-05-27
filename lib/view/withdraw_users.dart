@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:uuid/uuid.dart';
 import 'package:wallet_admin/Utils/utils.dart';
 import 'package:wallet_admin/res/components/colors.dart';
 import 'package:wallet_admin/res/components/header.dart';
@@ -26,20 +27,21 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
       String userId, String requestId, double incrementAmount) async {
     try {
       var firestore = FirebaseFirestore.instance.collection("users");
-      var depositeRequestRef = FirebaseFirestore.instance
+      var uuid = const Uuid().v1();
+      var withdrawRequestRef = FirebaseFirestore.instance
           .collection("withdraw_requests")
           .doc(requestId);
 
-      // Check if the deposite request document exists
-      var depositeRequestDoc = await depositeRequestRef.get();
+      // Check if the withdraw request document exists
+      var withdrawRequestDoc = await withdrawRequestRef.get();
 
-      var depositeRequestData = depositeRequestDoc.data();
-      if (depositeRequestData != null &&
-          depositeRequestData.containsKey('status') &&
-          depositeRequestData['status'] == 'accepted') {
-        Utils.toastMessage("Deposite request is already accepted.");
+      var withdrawRequestData = withdrawRequestDoc.data();
+      if (withdrawRequestData != null &&
+          withdrawRequestData.containsKey('status') &&
+          withdrawRequestData['status'] == 'accepted') {
+        Utils.toastMessage("Withdraw request is already accepted.");
         Navigator.pop(context);
-        return; // Exit the function if the deposite request is already accepted
+        return; // Exit the function if the withdraw request is already accepted
       }
 
       var userDoc = await firestore.doc(userId).get();
@@ -54,33 +56,43 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
             await firestore
                 .doc(userId)
                 .update({"balance": newBalance, "withdrawamount": withdraw});
-
-            // Update the status in the deposite_request subcollection
-            await depositeRequestRef.update({
-              "status": "accepted",
-              "updatedAt":
-                  FieldValue.serverTimestamp() // Optional: add a timestamp
-            });
-
-            Utils.toastMessage(
-                "User balance and request status updated successfully.");
-            Navigator.pop(context);
+            Map<String, dynamic> dataMap = {
+              "Action": "Withdraw",
+              "date": DateTime.now(),
+              "amount": incrementAmount,
+            };
+            await firestore
+                .doc(userId)
+                .collection("History")
+                .doc(uuid)
+                .set(dataMap);
           } else {
             await firestore.doc(userId).update(
                 {"balance": newBalance, "withdrawamount": incrementAmount});
-
-            // Update the status in the deposite_request subcollection
-            await depositeRequestRef.update({
-              "status": "accepted",
-              "updatedAt":
-                  FieldValue.serverTimestamp() // Optional: add a timestamp
-            });
-
-            Utils.toastMessage(
-                "User balance and request status updated successfully.");
-            Navigator.pop(context);
+            Map<String, dynamic> dataMap = {
+              "Action": "Withdraw",
+              "date": DateTime.now(),
+              "amount": incrementAmount,
+            };
+            await firestore
+                .doc(userId)
+                .collection("History")
+                .doc(uuid)
+                .set(dataMap);
           }
-          // Update the user's balance
+
+          // Update the status in the withdraw_request collection
+          await withdrawRequestRef.update({
+            "status": "accepted",
+            "updatedAt":
+                FieldValue.serverTimestamp() // Optional: add a timestamp
+          });
+
+          // Create the data map and store in History subcollection
+
+          Utils.toastMessage(
+              "User balance and request status updated successfully.");
+          Navigator.pop(context);
         } else {
           debugPrint("User data does not contain a balance field.");
         }
