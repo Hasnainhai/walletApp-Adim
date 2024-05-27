@@ -236,8 +236,9 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
                                                 bottomLeft: Radius.circular(8),
                                               ),
                                             ),
-                                            child: const TextField(
-                                              decoration: InputDecoration(
+                                            child: TextField(
+                                              controller: _searchController,
+                                              decoration: const InputDecoration(
                                                 isDense: true,
                                                 contentPadding:
                                                     EdgeInsets.symmetric(
@@ -251,7 +252,7 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
                                               ),
                                               textAlignVertical:
                                                   TextAlignVertical.center,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   color: Colors.black),
                                             ),
                                           ),
