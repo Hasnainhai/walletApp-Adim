@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -30,10 +32,13 @@ class _UsersScreenState extends State<UsersScreen> {
         bool isBlocked = userDoc['isBlock'] ?? false;
         if (isBlocked) {
           Utils.toastMessage("User is already blocked");
+          Navigator.pop(context);
         } else {
           await userDocRef.update({
             'isBlock': true,
           });
+          Navigator.pop(context);
+
           Utils.toastMessage("User blocked successfully");
         }
       } else {
@@ -52,11 +57,15 @@ class _UsersScreenState extends State<UsersScreen> {
       if (userDoc.exists) {
         bool isBlocked = userDoc['isBlock'] ?? false;
         if (!isBlocked) {
+          Navigator.pop(context);
+
           Utils.toastMessage('User is already unblocked');
         } else {
           await userDocRef.update({
             'isBlock': false,
           });
+          Navigator.pop(context);
+
           Utils.toastMessage('User unblocked successfully');
         }
       } else {
@@ -68,6 +77,7 @@ class _UsersScreenState extends State<UsersScreen> {
   }
 
   static const menuItems = <String>[
+    "All",
     'Normal',
     'Subscribed',
   ];
@@ -290,9 +300,9 @@ class _UsersScreenState extends State<UsersScreen> {
                                                 underline: const SizedBox(),
                                                 isExpanded: true,
                                                 value: _btn2SelectedVal,
-                                                hint: const Text('Category'),
+                                                hint: const Text('All'),
                                                 onChanged: (String? newValue) {
-                                                  if (newValue != null) {
+                                                  if (newValue != "All") {
                                                     setState(() =>
                                                         _btn2SelectedVal =
                                                             newValue);
@@ -453,7 +463,7 @@ class _UsersScreenState extends State<UsersScreen> {
                                               final bool isBlock =
                                                   bankDetails['isBlock'] ??
                                                       'N/A';
-                                              final int balance =
+                                              final double balance =
                                                   bankDetails['balance'] ??
                                                       'N/A';
                                               final String category =

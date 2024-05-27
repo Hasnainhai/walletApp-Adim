@@ -1,7 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:uuid/uuid.dart';
 import 'package:wallet_admin/Utils/utils.dart';
 import 'package:wallet_admin/res/components/colors.dart';
 import 'package:wallet_admin/res/components/header.dart';
@@ -23,6 +26,7 @@ class _DepositeState extends State<Deposite> {
       String userId, String requestId, double incrementAmount) async {
     try {
       var firestore = FirebaseFirestore.instance.collection("users");
+      var uuid = Uuid().v1();
       var depositeRequestRef = FirebaseFirestore.instance
           .collection("deposite_request")
           .doc(requestId);
@@ -36,6 +40,7 @@ class _DepositeState extends State<Deposite> {
           depositeRequestData['status'] == 'accepted') {
         debugPrint("Deposite request is already accepted.");
         Utils.toastMessage("Deposite request is already accepted.");
+        Navigator.pop(context);
         return; // Exit the function if the deposite request is already accepted
       }
 
@@ -55,6 +60,18 @@ class _DepositeState extends State<Deposite> {
             "updatedAt":
                 FieldValue.serverTimestamp() // Optional: add a timestamp
           });
+          Map<String, dynamic> dataMap = {
+            "Action": "Deposite",
+            "date": DateTime.now(),
+            "amount": incrementAmount,
+          };
+          await firestore
+              .doc(userId)
+              .collection("History")
+              .doc(uuid)
+              .set(dataMap);
+
+          Navigator.pop(context);
 
           Utils.toastMessage(
               "User balance and request status updated successfully.");
@@ -67,6 +84,8 @@ class _DepositeState extends State<Deposite> {
     } catch (e) {
       debugPrint(
           "An error occurred while updating the user balance and request status: $e");
+      Navigator.pop(context);
+
       Utils.toastMessage(
           "An error occurred while updating the user balance and request status.");
     }
@@ -380,7 +399,7 @@ class _DepositeState extends State<Deposite> {
                                                       'N/A';
                                               final Timestamp creationDate =
                                                   bankDetails['createdAt'] ??
-                                                      'N/A';
+                                                      Timestamp.now();
                                               final String userId =
                                                   bankDetails['userId'] ??
                                                       'N/A';

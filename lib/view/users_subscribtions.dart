@@ -55,32 +55,61 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
     }
   }
 
-  Future<void> updateSubscriptionStatus(String userId, String requestId) async {
+  Future<void> updateSubscriptionStatus(
+      String userId, String requestId, double subscriptionCharge) async {
     try {
       var userRef = FirebaseFirestore.instance.collection("users");
       var requestRef =
           FirebaseFirestore.instance.collection("subscriptionRequests");
 
-      // Start a batch to ensure all operations succeed or fail together
-      WriteBatch batch = FirebaseFirestore.instance.batch();
+      // Retrieve the user's document
+      var userDoc = await userRef.doc(userId).get();
 
-      // Update the user's category to Subscribed
-      batch.update(userRef.doc(userId), {"category": "Subscribed"});
+      if (userDoc.exists) {
+        var userData = userDoc.data();
+        if (userData != null && userData.containsKey('balance')) {
+          double currentBalance = (userData['balance'] as num).toDouble();
 
-      // Update the user's subscription request status to Active
-      batch.update(
-          userRef.doc(userId).collection("subscriptionRequests").doc(requestId),
-          {"subscribtionStatus": "Active"});
+          // Check if the user has enough balance
+          if (currentBalance >= subscriptionCharge) {
+            double newBalance = currentBalance - subscriptionCharge;
 
-      // Update the withdraw request status to Active
-      batch.update(requestRef.doc(requestId), {"subscribtionStatus": "Active"});
+            // Start a batch to ensure all operations succeed or fail together
+            WriteBatch batch = FirebaseFirestore.instance.batch();
 
-      // Commit the batch
-      await batch.commit();
-      Navigator.pop(context);
-      Utils.toastMessage("Subscription status updated successfully.");
+            // Update the user's balance
+            batch.update(userRef.doc(userId),
+                {"balance": newBalance, "category": "Subscribed"});
+
+            // Update the user's subscription request status to Active
+            batch.update(
+                userRef
+                    .doc(userId)
+                    .collection("subscriptionRequests")
+                    .doc(requestId),
+                {"subscribtionStatus": "Active"});
+
+            // Update the subscription request status to Active
+            batch.update(requestRef.doc(requestId), {
+              "subscribtionStatus": "Active",
+              "startDate": DateTime.now(),
+            });
+
+            // Commit the batch
+            await batch.commit();
+            Navigator.pop(context);
+            Utils.toastMessage("Subscription status updated successfully.");
+          } else {
+            Utils.toastMessage("Insufficient balance for subscription charge.");
+          }
+        } else {
+          Utils.toastMessage("User data does not contain a balance field.");
+        }
+      } else {
+        Utils.toastMessage("User document does not exist.");
+      }
     } catch (e) {
-      Utils.toastMessage("Failed to update subscription status");
+      Utils.toastMessage("Failed to update subscription status: $e");
     }
   }
 
@@ -105,11 +134,10 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
 
         // Create the chat node and the new document with the generated UUID
         await userRef.doc(userId).collection('chat').doc(uuid).set(chatData);
-        setState(() {
-          messageController.clear();
-        });
       }
-      ;
+      setState(() {
+        messageController.clear();
+      });
     } catch (e) {
       print("Failed to create chat nodes: $e");
     }
@@ -406,9 +434,10 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                                       as Map<String, dynamic>;
                                               final String name =
                                                   bankDetails['userName'] ?? '';
-                                              final int userBalance = bankDetails[
-                                                      'usercurrentBalance'] ??
-                                                  'N/A';
+                                              final double userBalance =
+                                                  bankDetails[
+                                                          'usercurrentBalance'] ??
+                                                      'N/A';
                                               final String creationDate =
                                                   bankDetails['dateTime'] ??
                                                       'N/A';
@@ -470,7 +499,8 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                                     Expanded(
                                                       flex: 3,
                                                       child: Center(
-                                                        child: Text(duration),
+                                                        child: Text(
+                                                            "$duration Months"),
                                                       ),
                                                     ),
                                                     Expanded(
@@ -556,7 +586,7 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
     BuildContext context,
     String name,
     String subCharge,
-    int balance,
+    double balance,
     String duration,
     String status,
     String date,
@@ -647,7 +677,11 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                         Utils.toastMessage("Status has Been already update!");
                         Navigator.pop(context);
                       } else {
-                        updateSubscriptionStatus(userId, requestId);
+                        updateSubscriptionStatus(
+                          userId,
+                          requestId,
+                          double.parse(subCharge),
+                        );
                       }
                     },
                     child: Container(
@@ -681,6 +715,7 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
   }
 
   void showCustomDialog(BuildContext context) {
+    final ScrollController _scrollController = ScrollController();
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -724,6 +759,9 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                             child: StreamBuilder<QuerySnapshot>(
                               stream: FirebaseFirestore.instance
                                   .collection("Chats")
+                                  .orderBy('timestamp',
+                                      descending:
+                                          false) // Order by createdAt field
                                   .snapshots(),
                               builder: (context, snapshot) {
                                 if (snapshot.hasError) {
@@ -744,9 +782,18 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                     child: Text('No chats to show'),
                                   ); // Handle no data scenario
                                 }
+                                WidgetsBinding.instance
+                                    .addPostFrameCallback((_) {
+                                  _scrollController.animateTo(
+                                    _scrollController.position.maxScrollExtent,
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.easeOut,
+                                  );
+                                });
 
                                 return ListView.separated(
                                   shrinkWrap: true,
+                                  controller: _scrollController,
                                   itemCount: documents.length,
                                   separatorBuilder: (context, index) =>
                                       const SizedBox(height: 12),
@@ -757,24 +804,7 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                         as Map<String, dynamic>;
                                     final String message =
                                         bankDetails['message'] ?? '';
-                                    // final String email =
-                                    //     bankDetails['email'] ?? 'N/A';
-                                    // final Timestamp creationDate =
-                                    //     bankDetails['createdAt'] ?? 'N/A';
-                                    // final String userId =
-                                    //     bankDetails['id'] ?? 'N/A';
-                                    // final String phoneNumber =
-                                    //     bankDetails['phone'] ?? 'N/A';
-                                    // final bool isBlock =
-                                    //     bankDetails['isBlock'] ?? 'N/A';
-                                    // final int balance =
-                                    //     bankDetails['balance'] ?? 'N/A';
-                                    // final String category =
-                                    //     bankDetails['category'] ?? 'N/A';
-                                    // DateTime dateTime = creationDate.toDate();
-                                    // // Format DateTime to string
-                                    // String formattedDate =
-                                    //     DateFormat('yyyy-MM-dd').format(dateTime);
+
                                     return Padding(
                                       padding: const EdgeInsets.all(10.0),
                                       child: Container(
