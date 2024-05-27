@@ -24,6 +24,23 @@ class MySubscribtions extends StatefulWidget {
 
 class _MySubscribtionsState extends State<MySubscribtions> {
   String date = 'YY-MM-DD';
+  String? btn2SelectedVal;
+
+  static const menuItems = <String>[
+    '1',
+    '3',
+    "6",
+  ];
+
+  final List<DropdownMenuItem<String>> _dropDownMenuItems = menuItems
+      .map<DropdownMenuItem<String>>(
+        (String value) => DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        ),
+      )
+      .toList();
+
   final TextEditingController durationController = TextEditingController();
   final TextEditingController chargesController = TextEditingController();
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -31,6 +48,7 @@ class _MySubscribtionsState extends State<MySubscribtions> {
   Future<void> addSubscription(
       String duration, String charges, String date) async {
     try {
+      debugPrint("this is duration inside the function:$duration");
       var uuid = const Uuid().v1();
       await _db.collection('Subscriptions').doc(uuid).set({
         'duration': duration,
@@ -50,6 +68,7 @@ class _MySubscribtionsState extends State<MySubscribtions> {
       builder: (BuildContext context) {
         // Local variable to hold the date value
         String selectedDate = date;
+        String? durationValue;
 
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setDialogState) {
@@ -83,10 +102,68 @@ class _MySubscribtionsState extends State<MySubscribtions> {
                       const SizedBox(
                         height: 40,
                       ),
-                      AddField(
-                        title: "Duration of subscriptions",
-                        controller: durationController,
-                        keyboardType: TextInputType.number,
+                      Container(
+                        height: 38,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          border: Border.all(
+                            color: Colors
+                                .grey, // Replace with your AppColor.borderColor
+                          ),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            left: 8.0,
+                            right: 8,
+                          ),
+                          child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  selectedDate,
+                                  style: GoogleFonts.getFont(
+                                    "Poppins",
+                                    textStyle: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColor.textColor1,
+                                    ),
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () async {
+                                    DateTime? picked = await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(1900),
+                                      lastDate: DateTime(2101),
+                                    );
+                                    if (picked != null) {
+                                      setDialogState(() {
+                                        selectedDate =
+                                            picked.toString().substring(0, 10);
+                                      });
+                                      setState(() {
+                                        date =
+                                            picked.toString().substring(0, 10);
+                                        // Update durationValue with selected value
+                                      });
+
+                                      debugPrint("this is the data: $date");
+                                    }
+                                  },
+                                  icon: const Icon(
+                                    Icons.calendar_today_outlined,
+                                    color: AppColor.textColor1,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                       const SizedBox(
                         height: 20,
@@ -117,63 +194,35 @@ class _MySubscribtionsState extends State<MySubscribtions> {
                             height: 38,
                             width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
-                              color: Colors.transparent,
+                              borderRadius: BorderRadius.circular(
+                                  8.0), // Adjust border radius as needed
                               border: Border.all(
-                                color: Colors
-                                    .grey, // Replace with your AppColor.borderColor
+                                color: Colors.grey, // Specify border color
+                                width: 1.0, // Specify border width
                               ),
-                              borderRadius: BorderRadius.circular(6),
                             ),
                             child: Padding(
                               padding: const EdgeInsets.only(
                                 left: 8.0,
                                 right: 8,
                               ),
-                              child: Center(
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      selectedDate,
-                                      style: GoogleFonts.getFont(
-                                        "Poppins",
-                                        textStyle: const TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                          color: AppColor.textColor1,
-                                        ),
-                                      ),
-                                    ),
-                                    IconButton(
-                                      onPressed: () async {
-                                        DateTime? picked = await showDatePicker(
-                                          context: context,
-                                          initialDate: DateTime.now(),
-                                          firstDate: DateTime(1900),
-                                          lastDate: DateTime(2101),
-                                        );
-                                        if (picked != null) {
-                                          setDialogState(() {
-                                            selectedDate = picked
-                                                .toString()
-                                                .substring(0, 10);
-                                          });
-                                          setState(() {
-                                            date = picked
-                                                .toString()
-                                                .substring(0, 10);
-                                          });
-                                          debugPrint("this is the data: $date");
-                                        }
-                                      },
-                                      icon: const Icon(
-                                        Icons.calendar_today_outlined,
-                                        color: AppColor.textColor1,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                              child: DropdownButton<String>(
+                                underline: const SizedBox(),
+                                isExpanded: true,
+                                value: durationValue,
+                                hint: const Text('Select Months'),
+                                onChanged: (String? newValue) {
+                                  if (mounted) {
+                                    setState(() {
+                                      btn2SelectedVal = newValue;
+                                      durationValue = btn2SelectedVal;
+                                    });
+                                    debugPrint(
+                                        "this is dropdown value: $btn2SelectedVal");
+                                    setDialogState(() {});
+                                  }
+                                },
+                                items: _dropDownMenuItems,
                               ),
                             ),
                           ),
@@ -185,11 +234,13 @@ class _MySubscribtionsState extends State<MySubscribtions> {
                       Center(
                         child: InkWell(
                           onTap: () async {
-                            if (durationController.text.isNotEmpty &&
+                            if (durationValue != null &&
                                 chargesController.text.isNotEmpty &&
                                 selectedDate != 'YY-MM-DD') {
+                              debugPrint(
+                                  "this is the duration inside the conduction:$durationValue");
                               await addSubscription(
-                                durationController.text,
+                                durationValue!,
                                 chargesController.text,
                                 selectedDate,
                               );
@@ -256,7 +307,7 @@ class _MySubscribtionsState extends State<MySubscribtions> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: getAddProductscaffoldKey,
+      key: getFinanceScaffoldKey,
       // key: context.read<MenuController>().getScaffoldKey,
       // drawer: const SideMenu(),
       body: SafeArea(
@@ -421,7 +472,7 @@ class _MySubscribtionsState extends State<MySubscribtions> {
                                                         ),
                                                         onPressed: () {},
                                                         child: Text(
-                                                          duration,
+                                                          "$duration Month",
                                                           style: const TextStyle(
                                                               color: AppColor
                                                                   .whiteColor),

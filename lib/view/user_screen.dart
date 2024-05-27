@@ -68,6 +68,7 @@ class _UsersScreenState extends State<UsersScreen> {
   }
 
   static const menuItems = <String>[
+    "All",
     'Normal',
     'Subscribed',
   ];
@@ -290,9 +291,9 @@ class _UsersScreenState extends State<UsersScreen> {
                                                 underline: const SizedBox(),
                                                 isExpanded: true,
                                                 value: _btn2SelectedVal,
-                                                hint: const Text('Category'),
+                                                hint: const Text('All'),
                                                 onChanged: (String? newValue) {
-                                                  if (newValue != null) {
+                                                  if (newValue != "All") {
                                                     setState(() =>
                                                         _btn2SelectedVal =
                                                             newValue);
