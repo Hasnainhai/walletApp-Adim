@@ -434,9 +434,10 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                                       as Map<String, dynamic>;
                                               final String name =
                                                   bankDetails['userName'] ?? '';
-                                              final int userBalance = bankDetails[
-                                                      'usercurrentBalance'] ??
-                                                  'N/A';
+                                              final double userBalance =
+                                                  bankDetails[
+                                                          'usercurrentBalance'] ??
+                                                      'N/A';
                                               final String creationDate =
                                                   bankDetails['dateTime'] ??
                                                       'N/A';
@@ -585,7 +586,7 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
     BuildContext context,
     String name,
     String subCharge,
-    int balance,
+    double balance,
     String duration,
     String status,
     String date,

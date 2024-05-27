@@ -416,7 +416,7 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
                                                       'N/A';
                                               final Timestamp creationDate =
                                                   bankDetails['date'] ??
-                                                      DateTime.now();
+                                                      Timestamp.now();
                                               final String userId = bankDetails[
                                                       'currentUserId'] ??
                                                   'N/A';
