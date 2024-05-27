@@ -472,7 +472,7 @@ class _MySubscribtionsState extends State<MySubscribtions> {
                                                         ),
                                                         onPressed: () {},
                                                         child: Text(
-                                                          "$duration Month",
+                                                          "$duration Months",
                                                           style: const TextStyle(
                                                               color: AppColor
                                                                   .whiteColor),

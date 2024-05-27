@@ -73,7 +73,10 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
           {"subscribtionStatus": "Active"});
 
       // Update the withdraw request status to Active
-      batch.update(requestRef.doc(requestId), {"subscribtionStatus": "Active"});
+      batch.update(requestRef.doc(requestId), {
+        "subscribtionStatus": "Active",
+        "startDate": DateTime.now(),
+      });
 
       // Commit the batch
       await batch.commit();
@@ -105,11 +108,10 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
 
         // Create the chat node and the new document with the generated UUID
         await userRef.doc(userId).collection('chat').doc(uuid).set(chatData);
-        setState(() {
-          messageController.clear();
-        });
       }
-      ;
+      setState(() {
+        messageController.clear();
+      });
     } catch (e) {
       print("Failed to create chat nodes: $e");
     }
@@ -470,7 +472,8 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                                     Expanded(
                                                       flex: 3,
                                                       child: Center(
-                                                        child: Text(duration),
+                                                        child: Text(
+                                                            "$duration Months"),
                                                       ),
                                                     ),
                                                     Expanded(
@@ -681,6 +684,7 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
   }
 
   void showCustomDialog(BuildContext context) {
+    final ScrollController _scrollController = ScrollController();
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -724,6 +728,9 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                             child: StreamBuilder<QuerySnapshot>(
                               stream: FirebaseFirestore.instance
                                   .collection("Chats")
+                                  .orderBy('timestamp',
+                                      descending:
+                                          false) // Order by createdAt field
                                   .snapshots(),
                               builder: (context, snapshot) {
                                 if (snapshot.hasError) {
@@ -744,9 +751,18 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                     child: Text('No chats to show'),
                                   ); // Handle no data scenario
                                 }
+                                WidgetsBinding.instance
+                                    .addPostFrameCallback((_) {
+                                  _scrollController.animateTo(
+                                    _scrollController.position.maxScrollExtent,
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.easeOut,
+                                  );
+                                });
 
                                 return ListView.separated(
                                   shrinkWrap: true,
+                                  controller: _scrollController,
                                   itemCount: documents.length,
                                   separatorBuilder: (context, index) =>
                                       const SizedBox(height: 12),
@@ -757,24 +773,7 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                         as Map<String, dynamic>;
                                     final String message =
                                         bankDetails['message'] ?? '';
-                                    // final String email =
-                                    //     bankDetails['email'] ?? 'N/A';
-                                    // final Timestamp creationDate =
-                                    //     bankDetails['createdAt'] ?? 'N/A';
-                                    // final String userId =
-                                    //     bankDetails['id'] ?? 'N/A';
-                                    // final String phoneNumber =
-                                    //     bankDetails['phone'] ?? 'N/A';
-                                    // final bool isBlock =
-                                    //     bankDetails['isBlock'] ?? 'N/A';
-                                    // final int balance =
-                                    //     bankDetails['balance'] ?? 'N/A';
-                                    // final String category =
-                                    //     bankDetails['category'] ?? 'N/A';
-                                    // DateTime dateTime = creationDate.toDate();
-                                    // // Format DateTime to string
-                                    // String formattedDate =
-                                    //     DateFormat('yyyy-MM-dd').format(dateTime);
+
                                     return Padding(
                                       padding: const EdgeInsets.all(10.0),
                                       child: Container(

@@ -36,6 +36,7 @@ class _DepositeState extends State<Deposite> {
           depositeRequestData['status'] == 'accepted') {
         debugPrint("Deposite request is already accepted.");
         Utils.toastMessage("Deposite request is already accepted.");
+        Navigator.pop(context);
         return; // Exit the function if the deposite request is already accepted
       }
 
@@ -55,6 +56,7 @@ class _DepositeState extends State<Deposite> {
             "updatedAt":
                 FieldValue.serverTimestamp() // Optional: add a timestamp
           });
+          Navigator.pop(context);
 
           Utils.toastMessage(
               "User balance and request status updated successfully.");
@@ -67,6 +69,8 @@ class _DepositeState extends State<Deposite> {
     } catch (e) {
       debugPrint(
           "An error occurred while updating the user balance and request status: $e");
+      Navigator.pop(context);
+
       Utils.toastMessage(
           "An error occurred while updating the user balance and request status.");
     }

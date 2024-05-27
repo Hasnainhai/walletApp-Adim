@@ -38,6 +38,7 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
           depositeRequestData.containsKey('status') &&
           depositeRequestData['status'] == 'accepted') {
         Utils.toastMessage("Deposite request is already accepted.");
+        Navigator.pop(context);
         return; // Exit the function if the deposite request is already accepted
       }
 
@@ -89,6 +90,8 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
     } catch (e) {
       debugPrint(
           "An error occurred while updating the user balance and request status: $e");
+      Navigator.pop(context);
+
       Utils.toastMessage(
           "An error occurred while updating the user balance and request status.");
     }
@@ -400,20 +403,21 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
                                                           'AccountNumber'] ??
                                                       'N/A';
                                               final Timestamp creationDate =
-                                                  bankDetails['date'] ?? 'N/A';
+                                                  bankDetails['date'] ??
+                                                      DateTime.now();
                                               final String userId = bankDetails[
                                                       'currentUserId'] ??
                                                   'N/A';
                                               final String requestId =
                                                   bankDetails['uuId'] ?? 'N/A';
-                                              final int totalBalance =
-                                                  bankDetails[
-                                                          'Total Balance'] ??
-                                                      'N/A';
-                                              final String requestBalance =
-                                                  bankDetails[
-                                                          'Request blance'] ??
-                                                      'N/A';
+                                              // final int totalBalance =
+                                              //     bankDetails[
+                                              //             'Total Balance'] ??
+                                              //         'N/A';
+                                              final double requestBalance =
+                                                  (bankDetails[
+                                                          'Request balance'] ??
+                                                      0);
                                               final String bankName =
                                                   bankDetails['PaymentType'] ??
                                                       'N/A';
@@ -478,8 +482,7 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
                                                               context,
                                                               userId,
                                                               requestId,
-                                                              double.parse(
-                                                                  requestBalance),
+                                                              requestBalance,
                                                               name,
                                                               bankName,
                                                               accountNumber);
