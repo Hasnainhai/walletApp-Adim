@@ -463,7 +463,7 @@ class _UsersScreenState extends State<UsersScreen> {
                                               final bool isBlock =
                                                   bankDetails['isBlock'] ??
                                                       'N/A';
-                                              final int balance =
+                                              final double balance =
                                                   bankDetails['balance'] ??
                                                       'N/A';
                                               final String category =

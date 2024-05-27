@@ -82,7 +82,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               DashboardWidget(
                   icon: Icons.currency_rupee_outlined,
                   iconColor: AppColor.primaryColor,
-                  title: '₹$_totalFunds',
+                  title: '₹${_totalFunds.toStringAsFixed(0)}',
                   subtitle: 'Total Funds'),
               DashboardWidget(
                   icon: Icons.currency_rupee_outlined,

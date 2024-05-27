@@ -399,7 +399,7 @@ class _DepositeState extends State<Deposite> {
                                                       'N/A';
                                               final Timestamp creationDate =
                                                   bankDetails['createdAt'] ??
-                                                      'N/A';
+                                                      DateTime.now();
                                               final String userId =
                                                   bankDetails['userId'] ??
                                                       'N/A';

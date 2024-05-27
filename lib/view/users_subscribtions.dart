@@ -55,35 +55,61 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
     }
   }
 
-  Future<void> updateSubscriptionStatus(String userId, String requestId) async {
+  Future<void> updateSubscriptionStatus(
+      String userId, String requestId, double subscriptionCharge) async {
     try {
       var userRef = FirebaseFirestore.instance.collection("users");
       var requestRef =
           FirebaseFirestore.instance.collection("subscriptionRequests");
 
-      // Start a batch to ensure all operations succeed or fail together
-      WriteBatch batch = FirebaseFirestore.instance.batch();
+      // Retrieve the user's document
+      var userDoc = await userRef.doc(userId).get();
 
-      // Update the user's category to Subscribed
-      batch.update(userRef.doc(userId), {"category": "Subscribed"});
+      if (userDoc.exists) {
+        var userData = userDoc.data();
+        if (userData != null && userData.containsKey('balance')) {
+          double currentBalance = (userData['balance'] as num).toDouble();
 
-      // Update the user's subscription request status to Active
-      batch.update(
-          userRef.doc(userId).collection("subscriptionRequests").doc(requestId),
-          {"subscribtionStatus": "Active"});
+          // Check if the user has enough balance
+          if (currentBalance >= subscriptionCharge) {
+            double newBalance = currentBalance - subscriptionCharge;
 
-      // Update the withdraw request status to Active
-      batch.update(requestRef.doc(requestId), {
-        "subscribtionStatus": "Active",
-        "startDate": DateTime.now(),
-      });
+            // Start a batch to ensure all operations succeed or fail together
+            WriteBatch batch = FirebaseFirestore.instance.batch();
 
-      // Commit the batch
-      await batch.commit();
-      Navigator.pop(context);
-      Utils.toastMessage("Subscription status updated successfully.");
+            // Update the user's balance
+            batch.update(userRef.doc(userId),
+                {"balance": newBalance, "category": "Subscribed"});
+
+            // Update the user's subscription request status to Active
+            batch.update(
+                userRef
+                    .doc(userId)
+                    .collection("subscriptionRequests")
+                    .doc(requestId),
+                {"subscribtionStatus": "Active"});
+
+            // Update the subscription request status to Active
+            batch.update(requestRef.doc(requestId), {
+              "subscribtionStatus": "Active",
+              "startDate": DateTime.now(),
+            });
+
+            // Commit the batch
+            await batch.commit();
+            Navigator.pop(context);
+            Utils.toastMessage("Subscription status updated successfully.");
+          } else {
+            Utils.toastMessage("Insufficient balance for subscription charge.");
+          }
+        } else {
+          Utils.toastMessage("User data does not contain a balance field.");
+        }
+      } else {
+        Utils.toastMessage("User document does not exist.");
+      }
     } catch (e) {
-      Utils.toastMessage("Failed to update subscription status");
+      Utils.toastMessage("Failed to update subscription status: $e");
     }
   }
 
@@ -650,7 +676,11 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                         Utils.toastMessage("Status has Been already update!");
                         Navigator.pop(context);
                       } else {
-                        updateSubscriptionStatus(userId, requestId);
+                        updateSubscriptionStatus(
+                          userId,
+                          requestId,
+                          double.parse(subCharge),
+                        );
                       }
                     },
                     child: Container(
