@@ -11,7 +11,6 @@ import 'package:wallet_admin/res/components/header.dart';
 import 'package:wallet_admin/res/keys.dart';
 import 'package:wallet_admin/res/responsive.dart';
 import 'package:wallet_admin/view/slide_menu.dart';
-import 'package:wallet_admin/view/widgets/add_field.dart';
 import 'package:wallet_admin/view/widgets/user_detai_field.dart';
 
 class IncreasePayment extends StatefulWidget {
@@ -24,31 +23,40 @@ class IncreasePayment extends StatefulWidget {
 class _IncreasePaymentState extends State<IncreasePayment> {
   final TextEditingController incrementController = TextEditingController();
   Future<void> approveDepositeRequest(
-      String userId, String incrementBalance) async {
+      String userId, String incrementPercentage) async {
     try {
       var firestore = FirebaseFirestore.instance.collection("users");
       var uuid = const Uuid().v1();
 
+      // Retrieve the user document
       var userDoc = await firestore.doc(userId).get();
       if (userDoc.exists) {
         var userData = userDoc.data();
         if (userData != null && userData.containsKey('balance')) {
           double currentBalance = (userData['balance'] as num).toDouble();
-          double incrementAmount = double.parse(incrementBalance);
+
+          // Calculate the increment amount based on the percentage
+          double incrementPercent = double.parse(incrementPercentage);
+          double incrementAmount = currentBalance * (incrementPercent / 100.0);
           double newBalance = currentBalance + incrementAmount;
 
+          // Update the user's balance
           await firestore.doc(userId).update({"balance": newBalance});
 
-          // Create the data map and store in History subcollection
+          // Create the data map for the increment history
           Map<String, dynamic> dataMap = {
             "date": DateTime.now(),
             "amount": incrementAmount,
           };
+
+          // Store the increment amount in the increment history subcollection
           await firestore
               .doc(userId)
-              .collection("IcrementHistory")
+              .collection("IncrementHistory")
               .doc(uuid)
               .set(dataMap);
+
+          // Inform the user of the successful balance update
           Navigator.pop(context);
           Utils.toastMessage("User balance updated successfully.");
         } else {
@@ -326,9 +334,8 @@ class _IncreasePaymentState extends State<IncreasePayment> {
                                           // Check if there are any documents
                                           if (documents.isEmpty) {
                                             return const Center(
-                                              child: Text(
-                                                  'No Users details found'),
-                                            ); // Handle no data scenario
+                                                child: Text(
+                                                    'No Users details found')); // Handle no data scenario
                                           }
 
                                           return ListView.separated(
@@ -339,7 +346,6 @@ class _IncreasePaymentState extends State<IncreasePayment> {
                                                     const SizedBox(height: 12),
                                             itemBuilder: (context, index) {
                                               // Safely retrieve and cast data for each document
-
                                               final bankDetails =
                                                   documents[index].data()
                                                       as Map<String, dynamic>;
@@ -349,15 +355,16 @@ class _IncreasePaymentState extends State<IncreasePayment> {
                                                   bankDetails['email'] ?? 'N/A';
                                               final Timestamp creationDate =
                                                   bankDetails['createdAt'] ??
-                                                      DateTime.now();
+                                                      Timestamp.now();
                                               final String userId =
                                                   bankDetails['id'] ?? 'N/A';
                                               final String phoneNumber =
                                                   bankDetails['phone'] ?? 'N/A';
-
                                               final double balance =
-                                                  bankDetails['balance'] ??
-                                                      'N/A';
+                                                  (bankDetails['balance']
+                                                              as num?)
+                                                          ?.toDouble() ??
+                                                      0.0;
 
                                               double incrementBalance =
                                                   balance * 0.05;
@@ -384,8 +391,8 @@ class _IncreasePaymentState extends State<IncreasePayment> {
                                                     Expanded(
                                                       flex: 1,
                                                       child: Center(
-                                                        child: Text(
-                                                            index.toString()),
+                                                        child: Text((index + 1)
+                                                            .toString()), // Add 1 to the index
                                                       ),
                                                     ),
                                                     Expanded(
@@ -419,15 +426,15 @@ class _IncreasePaymentState extends State<IncreasePayment> {
                                                       child: InkWell(
                                                         onTap: () {
                                                           showCustomDialog(
-                                                              context,
-                                                              name,
-                                                              phoneNumber,
-                                                              balance
-                                                                  .toString(),
-                                                              incrementBalance
-                                                                  .toStringAsFixed(
-                                                                      0),
-                                                              userId);
+                                                            context,
+                                                            name,
+                                                            phoneNumber,
+                                                            balance.toString(),
+                                                            incrementBalance
+                                                                .toStringAsFixed(
+                                                                    0),
+                                                            userId,
+                                                          );
                                                         },
                                                         child: Container(
                                                           height: 28,
@@ -442,38 +449,38 @@ class _IncreasePaymentState extends State<IncreasePayment> {
                                                                         6),
                                                           ),
                                                           child: Center(
-                                                              child: Text(
-                                                            "View",
-                                                            style: GoogleFonts
-                                                                .getFont(
-                                                              "Poppins",
-                                                              textStyle:
-                                                                  const TextStyle(
-                                                                fontSize: 14,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                color: AppColor
-                                                                    .whiteColor,
+                                                            child: Text(
+                                                              "View",
+                                                              style: GoogleFonts
+                                                                  .getFont(
+                                                                "Poppins",
+                                                                textStyle:
+                                                                    const TextStyle(
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  color: AppColor
+                                                                      .whiteColor,
+                                                                ),
                                                               ),
                                                             ),
-                                                          )),
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
-                                                    const SizedBox(
-                                                      width: 8,
-                                                    ),
+                                                    const SizedBox(width: 8),
                                                     Expanded(
                                                       flex: 1,
                                                       child: InkWell(
                                                         onTap: () {
                                                           hoistoryDialog(
-                                                              context,
-                                                              userId,
-                                                              balance
-                                                                  .toStringAsFixed(
-                                                                      2));
+                                                            context,
+                                                            userId,
+                                                            balance
+                                                                .toStringAsFixed(
+                                                                    2),
+                                                          );
                                                         },
                                                         child: Container(
                                                           height: 28,
@@ -488,22 +495,23 @@ class _IncreasePaymentState extends State<IncreasePayment> {
                                                                         6),
                                                           ),
                                                           child: Center(
-                                                              child: Text(
-                                                            "History",
-                                                            style: GoogleFonts
-                                                                .getFont(
-                                                              "Poppins",
-                                                              textStyle:
-                                                                  const TextStyle(
-                                                                fontSize: 14,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                color: AppColor
-                                                                    .whiteColor,
+                                                            child: Text(
+                                                              "History",
+                                                              style: GoogleFonts
+                                                                  .getFont(
+                                                                "Poppins",
+                                                                textStyle:
+                                                                    const TextStyle(
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  color: AppColor
+                                                                      .whiteColor,
+                                                                ),
                                                               ),
                                                             ),
-                                                          )),
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
@@ -590,7 +598,7 @@ class _IncreasePaymentState extends State<IncreasePayment> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Increment Balance",
+                            "Increment Percantage",
                             style: GoogleFonts.getFont(
                               "Poppins",
                               textStyle: const TextStyle(

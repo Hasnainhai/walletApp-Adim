@@ -492,8 +492,8 @@ class _UsersScreenState extends State<UsersScreen> {
                                                     Expanded(
                                                       flex: 1,
                                                       child: Center(
-                                                        child: Text(
-                                                            index.toString()),
+                                                        child: Text((index + 1)
+                                                            .toString()),
                                                       ),
                                                     ),
                                                     Expanded(

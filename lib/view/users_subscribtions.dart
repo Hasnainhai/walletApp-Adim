@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 import 'package:wallet_admin/Utils/utils.dart';
 import 'package:wallet_admin/res/components/colors.dart';
@@ -445,7 +446,7 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                                       'N/A';
                                               final String creationDate =
                                                   bankDetails['dateTime'] ??
-                                                      'N/A';
+                                                      "N/A";
                                               final String status = bankDetails[
                                                       'subscribtionStatus'] ??
                                                   'N/A';
@@ -466,7 +467,12 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                                       'N/A';
 
                                               // Format DateTime to string
-
+                                              // DateTime dateTime =
+                                              //     creationDate.toDate();
+                                              // Format DateTime to string
+                                              // String formattedDate =
+                                              //     DateFormat('yyyy-MM-dd')
+                                              //         .format(dateTime);
                                               return Container(
                                                 height: 38,
                                                 width: MediaQuery.of(context)
@@ -484,8 +490,8 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                                     Expanded(
                                                       flex: 1,
                                                       child: Center(
-                                                        child: Text(
-                                                            index.toString()),
+                                                        child: Text((index + 1)
+                                                            .toString()),
                                                       ),
                                                     ),
                                                     Expanded(

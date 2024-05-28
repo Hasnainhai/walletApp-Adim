@@ -97,7 +97,7 @@ class _SideMenuState extends State<SideMenu> {
             icon: Icons.subscript_outlined,
           ),
           DrawerListTile(
-            title: "My Subscribtions",
+            title: "Add Subscribtions",
             press: () {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(

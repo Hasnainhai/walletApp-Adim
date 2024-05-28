@@ -438,8 +438,8 @@ class _DepositeState extends State<Deposite> {
                                                     Expanded(
                                                       flex: 1,
                                                       child: Center(
-                                                        child: Text(
-                                                            index.toString()),
+                                                        child: Text((index + 1)
+                                                            .toString()),
                                                       ),
                                                     ),
                                                     Expanded(

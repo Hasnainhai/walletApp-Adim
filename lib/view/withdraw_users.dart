@@ -473,8 +473,8 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
                                                     Expanded(
                                                       flex: 1,
                                                       child: Center(
-                                                        child: Text(
-                                                            index.toString()),
+                                                        child: Text((index + 1)
+                                                            .toString()),
                                                       ),
                                                     ),
                                                     Expanded(
