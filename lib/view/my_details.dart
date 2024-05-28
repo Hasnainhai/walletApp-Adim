@@ -2,7 +2,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uuid/uuid.dart';
 import 'package:wallet_admin/Utils/utils.dart';
@@ -30,7 +29,8 @@ class _MyDetailsState extends State<MyDetails> {
   void storeBankDetails(
       TextEditingController nameController,
       TextEditingController bankNameController,
-      TextEditingController accountNumberController) async {
+      TextEditingController accountNumberController,
+      TextEditingController isfcControoler) async {
     try {
       // Create a map to store valid data
       final Map<String, dynamic> data = {};
@@ -44,6 +44,9 @@ class _MyDetailsState extends State<MyDetails> {
       }
       if (accountNumberController.text.isNotEmpty) {
         data['accountNumber'] = accountNumberController.text;
+      }
+      if (isfcController.text.isNotEmpty) {
+        data['ISFCCode'] = isfcControoler.text;
       }
 
       // Only store data if the map is not empty
@@ -91,7 +94,7 @@ class _MyDetailsState extends State<MyDetails> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController bankNameController = TextEditingController();
   final TextEditingController accountNumberController = TextEditingController();
-
+  final TextEditingController isfcController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -184,6 +187,8 @@ class _MyDetailsState extends State<MyDetails> {
                                             'N/A';
                                     final String documentId =
                                         bankDetails['uuid'] ?? 'N/A';
+                                    final String isfccode =
+                                        bankDetails['ISFCCode'] ?? 'N/A';
 
                                     return Container(
                                       height: 218,
@@ -322,6 +327,47 @@ class _MyDetailsState extends State<MyDetails> {
                                                             .start,
                                                     children: [
                                                       Text(
+                                                        'ISFC Code',
+                                                        style:
+                                                            GoogleFonts.getFont(
+                                                          "Poppins",
+                                                          textStyle:
+                                                              const TextStyle(
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color: AppColor
+                                                                .textColor1,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      const VerticalSpeacing(
+                                                          10.0),
+                                                      Text(
+                                                        isfccode,
+                                                        style:
+                                                            GoogleFonts.getFont(
+                                                          "Poppins",
+                                                          textStyle:
+                                                              const TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            color: AppColor
+                                                                .textColor1,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
                                                         'Account Holder Name',
                                                         style:
                                                             GoogleFonts.getFont(
@@ -393,7 +439,7 @@ class _MyDetailsState extends State<MyDetails> {
           ),
           child: SizedBox(
             width: 446.77,
-            height: MediaQuery.of(context).size.height / 1.5,
+            height: MediaQuery.of(context).size.height / 1.4,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -436,12 +482,23 @@ class _MyDetailsState extends State<MyDetails> {
                   const SizedBox(
                     height: 20,
                   ),
+                  AddField(
+                    title: "ISFC Code",
+                    controller: isfcController,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   Center(
                     child: InkWell(
                       onTap: () {
                         // Call storeBankDetails function with all controllers
-                        storeBankDetails(nameController, bankNameController,
-                            accountNumberController);
+                        storeBankDetails(
+                          nameController,
+                          bankNameController,
+                          accountNumberController,
+                          isfcController,
+                        );
                       },
                       child: Container(
                         height: 38,

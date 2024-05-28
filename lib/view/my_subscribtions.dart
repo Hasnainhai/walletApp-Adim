@@ -30,6 +30,7 @@ class _MySubscribtionsState extends State<MySubscribtions> {
     '1',
     '3',
     "6",
+    '12',
   ];
 
   final List<DropdownMenuItem<String>> _dropDownMenuItems = menuItems
@@ -79,8 +80,8 @@ class _MySubscribtionsState extends State<MySubscribtions> {
                 borderRadius: BorderRadius.circular(12.0),
               ),
               child: SizedBox(
-                width: 446.77,
-                height: MediaQuery.of(context).size.height / 1.5,
+                width: MediaQuery.of(context).size.width / 3.5,
+                height: MediaQuery.of(context).size.height / 1.8,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(

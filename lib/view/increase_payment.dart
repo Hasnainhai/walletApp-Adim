@@ -11,6 +11,7 @@ import 'package:wallet_admin/res/components/header.dart';
 import 'package:wallet_admin/res/keys.dart';
 import 'package:wallet_admin/res/responsive.dart';
 import 'package:wallet_admin/view/slide_menu.dart';
+import 'package:wallet_admin/view/widgets/add_field.dart';
 import 'package:wallet_admin/view/widgets/user_detai_field.dart';
 
 class IncreasePayment extends StatefulWidget {
@@ -21,6 +22,7 @@ class IncreasePayment extends StatefulWidget {
 }
 
 class _IncreasePaymentState extends State<IncreasePayment> {
+  final TextEditingController incrementController = TextEditingController();
   Future<void> approveDepositeRequest(
       String userId, String incrementBalance) async {
     try {
@@ -584,9 +586,53 @@ class _IncreasePaymentState extends State<IncreasePayment> {
                         title: "Current Balance",
                         data: "₹${balance}",
                       ),
-                      UserDetailField(
-                        title: "Increament Balance",
-                        data: "₹$incrementBalance",
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Increment Balance",
+                            style: GoogleFonts.getFont(
+                              "Poppins",
+                              textStyle: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: AppColor.textColor1,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 38,
+                            width: 192,
+                            decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              border: Border.all(color: AppColor.borderColor),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(
+                                child: TextField(
+                                  controller: incrementController,
+                                  style: GoogleFonts.getFont(
+                                    "Poppins",
+                                    textStyle: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors
+                                          .black, // Replace with your AppColor.textColor1
+                                    ),
+                                  ),
+                                  decoration: const InputDecoration(
+                                    isDense: true,
+                                    contentPadding:
+                                        EdgeInsets.symmetric(vertical: 8.0),
+                                    border: InputBorder.none,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -596,7 +642,8 @@ class _IncreasePaymentState extends State<IncreasePayment> {
                   Center(
                     child: InkWell(
                       onTap: () {
-                        approveDepositeRequest(userId, incrementBalance);
+                        approveDepositeRequest(
+                            userId, incrementController.text);
                       },
                       child: Container(
                         height: 38,

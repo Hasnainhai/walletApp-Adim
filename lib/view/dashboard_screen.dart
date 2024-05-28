@@ -58,6 +58,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String addEllipsis(String text, int maxLength) {
+      if (text.length <= maxLength) {
+        return text;
+      } else {
+        return '${text.substring(0, maxLength)}...';
+      }
+    }
+
     return SafeArea(
         child: SingleChildScrollView(
       padding: const EdgeInsets.all(defaultPadding),
@@ -82,12 +90,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
               DashboardWidget(
                   icon: Icons.currency_rupee_outlined,
                   iconColor: AppColor.primaryColor,
-                  title: '₹${_totalFunds.toStringAsFixed(0)}',
+                  title: addEllipsis(
+                    "₹${_totalFunds.toStringAsFixed(0)}",
+                    6, // Maximum length before adding ellipsis
+                  ),
                   subtitle: 'Total Funds'),
               DashboardWidget(
                   icon: Icons.currency_rupee_outlined,
                   iconColor: AppColor.primaryColor,
-                  title: '₹$_totalwithdraw',
+                  title: addEllipsis(
+                    "₹${_totalwithdraw.toStringAsFixed(0)}",
+                    6, // Maximum length before adding ellipsis
+                  ),
                   subtitle: 'Total Withdraws'),
             ],
           ),

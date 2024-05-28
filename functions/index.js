@@ -48,7 +48,7 @@ exports.scheduleSubscriptionUpdate = functions.firestore
     });
 
 exports.processScheduledSubscriptionUpdate = functions.pubsub
-    .schedule("every 1 minutes")
+    .schedule("every 60 minutes")
     .onRun(async (context) => {
       const now = new Date().toISOString();
       const tasksQuerySnapshot = await firestore

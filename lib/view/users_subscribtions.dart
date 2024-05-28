@@ -1,6 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uuid/uuid.dart';
@@ -12,6 +14,8 @@ import 'package:wallet_admin/res/keys.dart';
 import 'package:wallet_admin/res/responsive.dart';
 import 'package:wallet_admin/view/slide_menu.dart';
 import 'package:wallet_admin/view/widgets/user_detai_field.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class UsersSubscribtions extends StatefulWidget {
   const UsersSubscribtions({super.key});
@@ -22,7 +26,8 @@ class UsersSubscribtions extends StatefulWidget {
 
 class _UsersSubscribtionsState extends State<UsersSubscribtions> {
   String searchTerm = '';
-  String selectedCategory = 'All'; // Default to show all users
+  String selectedCategory = 'All';
+  // Default to show all users
   final TextEditingController _searchController = TextEditingController();
   final TextEditingController messageController = TextEditingController();
 
@@ -715,7 +720,84 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
   }
 
   void showCustomDialog(BuildContext context) {
+    File? _pickedImage;
+    Uint8List? webImage;
     final ScrollController _scrollController = ScrollController();
+    final TextEditingController messageController = TextEditingController();
+
+    Future<void> pickImage(StateSetter setState) async {
+      final ImagePicker picker = ImagePicker();
+      if (!kIsWeb) {
+        XFile? image = await picker.pickImage(source: ImageSource.gallery);
+        if (image != null) {
+          var selected = File(image.path);
+          setState(() {
+            _pickedImage = selected;
+          });
+        } else {
+          Utils.toastMessage("No Image has been Picked");
+        }
+      } else {
+        XFile? image = await picker.pickImage(source: ImageSource.gallery);
+        if (image != null) {
+          var f = await image.readAsBytes();
+          setState(() {
+            webImage = f;
+            _pickedImage = File("a");
+          });
+        } else {
+          Utils.toastMessage("No Image has been Picked");
+        }
+      }
+    }
+
+    Future<String> uploadImage(Uint8List imageBytes) async {
+      String fileName = Uuid().v4();
+      Reference storageRef =
+          FirebaseStorage.instance.ref().child('chat_images/$fileName');
+      UploadTask uploadTask = storageRef.putData(imageBytes);
+      TaskSnapshot snapshot = await uploadTask;
+      return await snapshot.ref.getDownloadURL();
+    }
+
+    Future<void> createChatNodesForSubscribedUsers(StateSetter setState) async {
+      try {
+        var userRef = FirebaseFirestore.instance.collection("users");
+        var uuid = const Uuid().v4();
+        String? imageUrl;
+        String message;
+
+        if (webImage != null) {
+          imageUrl = await uploadImage(webImage!);
+          message = imageUrl;
+        } else {
+          message = messageController.text;
+        }
+
+        var chatData = {
+          'message': message,
+          'timestamp': FieldValue.serverTimestamp(),
+          'status': 'unread',
+        };
+
+        var subscribedUsersQuery =
+            await userRef.where("category", isEqualTo: "Subscribed").get();
+        FirebaseFirestore.instance.collection("Chats").doc(uuid).set(chatData);
+        for (var doc in subscribedUsersQuery.docs) {
+          var userId = doc.id;
+          await userRef.doc(userId).collection('chat').doc(uuid).set(chatData);
+        }
+
+        setState(() {
+          messageController.clear();
+          webImage = null;
+          _pickedImage = null;
+        });
+      } catch (e) {
+        print("Failed to create chat nodes: $e");
+      }
+    }
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -759,28 +841,22 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                             child: StreamBuilder<QuerySnapshot>(
                               stream: FirebaseFirestore.instance
                                   .collection("Chats")
-                                  .orderBy('timestamp',
-                                      descending:
-                                          false) // Order by createdAt field
+                                  .orderBy('timestamp', descending: false)
                                   .snapshots(),
                               builder: (context, snapshot) {
                                 if (snapshot.hasError) {
-                                  return Text(
-                                      'Error: ${snapshot.error}'); // Handle errors
+                                  return Text('Error: ${snapshot.error}');
                                 }
 
                                 if (!snapshot.hasData) {
                                   return const Center(
-                                      child:
-                                          CircularProgressIndicator()); // Show loading indicator
+                                      child: CircularProgressIndicator());
                                 }
 
                                 final documents = snapshot.data!.docs;
-                                // Check if there are any documents
                                 if (documents.isEmpty) {
                                   return const Center(
-                                    child: Text('No chats to show'),
-                                  ); // Handle no data scenario
+                                      child: Text('No chats to show'));
                                 }
                                 WidgetsBinding.instance
                                     .addPostFrameCallback((_) {
@@ -798,8 +874,6 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                   separatorBuilder: (context, index) =>
                                       const SizedBox(height: 12),
                                   itemBuilder: (context, index) {
-                                    // Safely retrieve and cast data for each document
-
                                     final bankDetails = documents[index].data()
                                         as Map<String, dynamic>;
                                     final String message =
@@ -819,16 +893,38 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                                         ),
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            message,
-                                            style: GoogleFonts.getFont(
-                                              "Poppins",
-                                              textStyle: const TextStyle(
-                                                fontSize: 14,
-                                                color: AppColor.textColor1,
-                                              ),
-                                            ),
-                                          ),
+                                          child: message.startsWith('http')
+                                              ? Image.network(
+                                                  message,
+                                                  fit: BoxFit.cover,
+                                                  errorBuilder: (context, error,
+                                                      stackTrace) {
+                                                    return Text(
+                                                      'Error loading image',
+                                                      style:
+                                                          GoogleFonts.getFont(
+                                                        "Poppins",
+                                                        textStyle:
+                                                            const TextStyle(
+                                                          fontSize: 14,
+                                                          color: AppColor
+                                                              .textColor1,
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                )
+                                              : Text(
+                                                  message,
+                                                  style: GoogleFonts.getFont(
+                                                    "Poppins",
+                                                    textStyle: const TextStyle(
+                                                      fontSize: 14,
+                                                      color:
+                                                          AppColor.textColor1,
+                                                    ),
+                                                  ),
+                                                ),
                                         ),
                                       ),
                                     );
@@ -840,12 +936,30 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                           const SizedBox(
                             height: 20,
                           ),
+                          _pickedImage != null && webImage != null
+                              ? Container(
+                                  height: 200,
+                                  width: 200,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: MemoryImage(webImage!),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                )
+                              : const SizedBox(),
                           Row(
                             children: [
                               Expanded(
                                 child: TextField(
                                   controller: messageController,
                                   decoration: InputDecoration(
+                                    suffixIcon: InkWell(
+                                        onTap: () {
+                                          pickImage(setState);
+                                        },
+                                        child: const Icon(
+                                            Icons.attachment_outlined)),
                                     hintText: 'Type a message',
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(8),
@@ -860,8 +974,9 @@ class _UsersSubscribtionsState extends State<UsersSubscribtions> {
                               const SizedBox(width: 8),
                               GestureDetector(
                                 onTap: () {
-                                  if (messageController.text.isNotEmpty) {
-                                    createChatNodesForSubscribedUsers();
+                                  if (messageController.text.isNotEmpty ||
+                                      webImage != null) {
+                                    createChatNodesForSubscribedUsers(setState);
                                   }
                                 },
                                 child: Container(
