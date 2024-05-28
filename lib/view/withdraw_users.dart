@@ -347,6 +347,18 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
                                               flex: 3,
                                               child: Center(
                                                 child: Text(
+                                                  'ISFC Code',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              flex: 3,
+                                              child: Center(
+                                                child: Text(
                                                   'Date',
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
@@ -421,6 +433,9 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
                                               final String userId = bankDetails[
                                                       'currentUserId'] ??
                                                   'N/A';
+                                              final String isfcCode =
+                                                  bankDetails['ISFCCode'] ??
+                                                      'N/A';
                                               final String requestId =
                                                   bankDetails['uuId'] ?? 'N/A';
                                               // final int totalBalance =
@@ -479,6 +494,12 @@ class _WithdrawUsersState extends State<WithdrawUsers> {
                                                       child: Center(
                                                           child: Text(
                                                               accountNumber)),
+                                                    ),
+                                                    Expanded(
+                                                      flex: 3,
+                                                      child: Center(
+                                                        child: Text(isfcCode),
+                                                      ),
                                                     ),
                                                     Expanded(
                                                       flex: 3,
