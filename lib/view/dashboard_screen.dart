@@ -73,37 +73,40 @@ class _DashboardScreenState extends State<DashboardScreen> {
         height: 232,
         color: AppColor.whiteColor,
         child: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              DashboardWidget(
-                  icon: Icons.people_outline_outlined,
-                  iconColor: AppColor.textColor1,
-                  title: _totalUserCount.toString(),
-                  subtitle: 'Total Users'),
-              DashboardWidget(
-                  icon: Icons.people_outline_outlined,
-                  iconColor: AppColor.textColor1,
-                  title: _blockedUserCount.toString(),
-                  subtitle: 'Block Users'),
-              DashboardWidget(
-                  icon: Icons.currency_rupee_outlined,
-                  iconColor: AppColor.primaryColor,
-                  title: addEllipsis(
-                    "₹${_totalFunds.toStringAsFixed(0)}",
-                    6, // Maximum length before adding ellipsis
-                  ),
-                  subtitle: 'Total Funds'),
-              DashboardWidget(
-                  icon: Icons.currency_rupee_outlined,
-                  iconColor: AppColor.primaryColor,
-                  title: addEllipsis(
-                    "₹${_totalwithdraw.toStringAsFixed(0)}",
-                    6, // Maximum length before adding ellipsis
-                  ),
-                  subtitle: 'Total Withdraws'),
-            ],
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              spacing: 16,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                DashboardWidget(
+                    icon: Icons.people_outline_outlined,
+                    iconColor: AppColor.textColor1,
+                    title: _totalUserCount.toString(),
+                    subtitle: 'Total Users'),
+                DashboardWidget(
+                    icon: Icons.people_outline_outlined,
+                    iconColor: AppColor.textColor1,
+                    title: _blockedUserCount.toString(),
+                    subtitle: 'Block Users'),
+                DashboardWidget(
+                    icon: Icons.currency_rupee_outlined,
+                    iconColor: AppColor.primaryColor,
+                    title: addEllipsis(
+                      "₹${_totalFunds.toStringAsFixed(0)}",
+                      6, // Maximum length before adding ellipsis
+                    ),
+                    subtitle: 'Total Funds'),
+                DashboardWidget(
+                    icon: Icons.currency_rupee_outlined,
+                    iconColor: AppColor.primaryColor,
+                    title: addEllipsis(
+                      "₹${_totalwithdraw.toStringAsFixed(0)}",
+                      6, // Maximum length before adding ellipsis
+                    ),
+                    subtitle: 'Total Withdraws'),
+              ],
+            ),
           ),
         ),
       ),
