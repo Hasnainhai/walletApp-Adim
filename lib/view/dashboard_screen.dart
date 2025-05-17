@@ -71,7 +71,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       padding: const EdgeInsets.all(defaultPadding),
       child: Container(
         height: 232,
-        color: AppColor.whiteColor,
+        color: Colors.transparent,
         child: Center(
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
